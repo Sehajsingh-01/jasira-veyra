@@ -44,6 +44,8 @@ export const metadata: Metadata = {
   },
 };
 
+import Navbar from '@/components/layout/Navbar';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -52,6 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${libre.variable} ${caveat.variable} ${inter.variable}`}>
       <body className="min-h-screen antialiased bg-midnight text-cream">
+        <Navbar />
         {children}
       </body>
     </html>

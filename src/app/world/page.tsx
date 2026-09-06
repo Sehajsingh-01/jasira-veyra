@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { Timeline, TimelineEvent } from '@/components/timeline/Timeline';
 
 export const metadata = {
@@ -43,37 +44,70 @@ export default function WorldPage() {
   return (
     <main className="min-h-screen bg-midnight relative">
       <div className="relative z-10 container mx-auto px-4 py-24 max-w-5xl">
-        <header className="text-center mb-24 space-y-6">
+        <header className="text-center mb-16 space-y-6">
           <p className="font-ui text-sm md:text-base text-warm-gold tracking-[0.3em] uppercase">
             THE WORLD OF BLOOMVERSE
           </p>
           <h1 className="font-display text-5xl md:text-7xl text-cream tracking-wide">
             DUSKBLOOM WOOD
           </h1>
-          <div className="max-w-3xl mx-auto pt-8">
+          <div className="max-w-3xl mx-auto pt-4">
             <p className="font-body text-lg md:text-xl text-lavender/90 leading-relaxed text-left md:text-center italic">
               "Duskbloom Wood was not like other forests. By day it looked ordinary enough — quiet, a little grey, easy to walk past without a second glance. But the moment the moon cleared the treeline, the whole wood remembered what it actually was: every flower opened at once, and the air turned the soft, glowing lilac of something that had been waiting all day to finally breathe."
             </p>
           </div>
         </header>
 
+        {/* Featured Landscape */}
+        <div className="mb-24 rounded-2xl overflow-hidden border border-warm-gold/20 shadow-2xl relative aspect-[16/9] w-full bg-midnight/60">
+          <Image
+            src="/images/world/duskbloom-wood.webp"
+            alt="Duskbloom Wood at twilight"
+            fill
+            priority
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-midnight/90 via-transparent to-transparent flex items-end p-8">
+            <div>
+              <span className="font-ui text-xs text-warm-gold tracking-widest uppercase">Ancient Sanctuary</span>
+              <h3 className="font-display text-2xl md:text-3xl text-cream">Twilight in the Lilac Canopies</h3>
+            </div>
+          </div>
+        </div>
+
         <section className="mb-32">
           <h2 className="font-display text-4xl text-cream mb-12 text-center">Chronicles of the Wood</h2>
           <Timeline events={timelineEvents} />
         </section>
 
-        <div className="grid md:grid-cols-2 gap-16">
-          <section className="space-y-6">
-            <h2 className="font-display text-3xl text-warm-gold border-b border-white/10 pb-4">The Athenaeum</h2>
+        <div className="grid md:grid-cols-2 gap-12 mb-16">
+          <section className="space-y-4 rounded-xl p-6 bg-plum/10 border border-white/5">
+            <div className="relative aspect-[16/10] w-full rounded-lg overflow-hidden border border-warm-gold/20 mb-4 bg-midnight/50">
+              <Image
+                src="/images/world/athenaeum-exterior.webp"
+                alt="The Grand Athenaeum exterior"
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <h2 className="font-display text-3xl text-warm-gold border-b border-white/10 pb-2">The Athenaeum</h2>
             <p className="font-body text-lavender/80 leading-relaxed">
               A repository not just for books, but for memories, lost spells, and forgotten items. It sits at the heart of the wood, its architecture woven seamlessly into the ancient trees. Jasira spends most of her time here.
             </p>
           </section>
           
-          <section className="space-y-6">
-            <h2 className="font-display text-3xl text-warm-gold border-b border-white/10 pb-4">The Elder Circle</h2>
+          <section className="space-y-4 rounded-xl p-6 bg-plum/10 border border-white/5">
+            <div className="relative aspect-[16/10] w-full rounded-lg overflow-hidden border border-warm-gold/20 mb-4 bg-midnight/50">
+              <Image
+                src="/images/world/eastern-grove.webp"
+                alt="The Eastern Grove sacred sanctuary"
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <h2 className="font-display text-3xl text-warm-gold border-b border-white/10 pb-2">The Eastern Grove</h2>
             <p className="font-body text-lavender/80 leading-relaxed">
-              The guides of the elf community. They watch over the deep magic of the forest and ensure the balance between the waking day and the magic-filled night is maintained.
+              A sacred clearing bordered by glowing moonlit petals where ancient memories rest. The grove marks the boundary between the cultivated gardens of Duskbloom and the wild, untamed reaches of the deep forest.
             </p>
           </section>
         </div>

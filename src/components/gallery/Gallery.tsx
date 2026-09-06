@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye } from 'lucide-react';
+import Image from 'next/image';
 import { ImageLightbox } from './ImageLightbox';
 
 export interface GalleryImage {
@@ -64,13 +65,19 @@ export function Gallery({ images }: GalleryProps) {
               className="break-inside-avoid relative group rounded-lg overflow-hidden bg-plum/20 border border-white/5 cursor-pointer block"
               onClick={() => setSelectedImage(image)}
             >
-              {/* Aspect Ratio Placeholder Box */}
+              {/* Aspect Ratio Box */}
               <div 
-                className="w-full bg-midnight/30 flex items-center justify-center relative"
+                className="w-full bg-midnight/30 flex items-center justify-center relative overflow-hidden"
                 style={{ aspectRatio: `${image.width} / ${image.height}` }}
               >
-                 <span className="font-ui text-[10px] text-lavender/20">IMG: {image.id}</span>
-                 {/* Real Image: <Image src={image.thumbnail} alt={image.title} fill className="object-cover" loading="lazy" /> */}
+                 <Image 
+                   src={image.thumbnail || image.src} 
+                   alt={image.title} 
+                   fill 
+                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                   className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                   loading="lazy" 
+                 />
               </div>
               
               {/* Hover Overlay */}

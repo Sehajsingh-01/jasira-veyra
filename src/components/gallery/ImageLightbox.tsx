@@ -36,14 +36,15 @@ export function ImageLightbox({ image, onClose }: ImageLightboxProps) {
           className="relative max-w-5xl max-h-[80vh] w-full h-full flex flex-col items-center justify-center"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Placeholder for real Image component since we don't have actual paths */}
-          <div className="w-full h-full max-h-[70vh] bg-plum/20 rounded-lg flex items-center justify-center border border-white/10 relative overflow-hidden">
-             <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
-               <span className="font-ui text-warm-gold/50 tracking-widest mb-4">IMAGE PREVIEW</span>
-               <h3 className="font-display text-3xl text-cream mb-4">{image.title}</h3>
-               {image.description && <p className="font-body text-lavender max-w-md mx-auto">{image.description}</p>}
-               <p className="font-ui text-xs text-lavender/30 mt-8 absolute bottom-4 right-4">[{image.src}]</p>
-             </div>
+          {/* Real Image container */}
+          <div className="w-full h-full max-h-[70vh] bg-midnight/40 rounded-xl flex items-center justify-center border border-warm-gold/30 relative overflow-hidden shadow-2xl">
+             <Image
+               src={image.src}
+               alt={image.title}
+               fill
+               className="object-contain p-2"
+               priority
+             />
           </div>
           
           <div className="w-full mt-6 text-center">

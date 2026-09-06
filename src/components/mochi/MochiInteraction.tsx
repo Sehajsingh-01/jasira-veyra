@@ -49,9 +49,14 @@ export function MochiInteraction() {
         >
           {/* Decorative frame elements could go here */}
           <div className="w-full h-full rounded-full bg-midnight/50 flex items-center justify-center overflow-hidden relative">
-            <span className="font-ui text-sm text-lavender/50">Mochi Portrait</span>
-            {/* Real image would go here */}
-            {/* <Image src="/images/mochi/portrait.webp" alt="Mochi" fill className="object-cover" /> */}
+            <Image 
+              src="/images/mochi/portrait.webp" 
+              alt="Mochi" 
+              fill 
+              sizes="192px"
+              className="object-cover" 
+              priority
+            />
           </div>
         </div>
 

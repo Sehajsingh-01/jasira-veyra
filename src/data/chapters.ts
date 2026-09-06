@@ -30,15 +30,17 @@ export const chapters: Chapter[] = [
     id: 'chapter-1',
     number: 1,
     title: 'A Quiet Beginning',
-    subtitle: 'The wood remembers what it actually was',
     description: 'Jasira notices something wrong with the flowers in Duskbloom Wood.',
     isAvailable: true,
+    coverImage: '/images/backgrounds/story-bg.webp',
     scenes: [
       {
         id: 'ch1-sc1',
         chapterId: 'chapter-1',
         title: 'The Silent Roses',
         sceneIndex: 1,
+        illustration: '/images/story/silent-roses.webp',
+        illustrationAlt: 'The roses under Jasira windowsill have lost their scent',
         atmosphereClass: 'bg-midnight text-parchment',
         content: [
           "Duskbloom Wood was not like other forests. By day it looked ordinary enough — quiet, a little grey, easy to walk past without a second glance. But the moment the moon cleared the treeline, the whole wood remembered what it actually was: every flower opened at once, and the air turned the soft, glowing lilac of something that had been waiting all day to finally breathe.",
@@ -58,6 +60,8 @@ export const chapters: Chapter[] = [
         chapterId: 'chapter-1',
         title: 'The Duskbloom Signal',
         sceneIndex: 2,
+        illustration: '/images/story/hush-tendril.webp',
+        illustrationAlt: 'The Duskbloom Signal and Hush-Tendril Breach',
         atmosphereClass: 'bg-ink text-cream',
         content: [
           "She almost forgot about the roses entirely, until two nights later, when the horn sounded twice — the Duskbloom signal for a Hush-tendril breach — and Jasira was already moving before she'd finished pulling her boots on, because some habits don't die even after years of the same result. If nobody was going to ask her to help, she was still going to show up and offer anyway. That was just who she was.",
@@ -75,6 +79,8 @@ export const chapters: Chapter[] = [
         chapterId: 'chapter-1',
         title: 'The Athenaeum',
         sceneIndex: 3,
+        illustration: '/images/story/athenaeum.webp',
+        illustrationAlt: 'The ancient book-hall of Duskbloom',
         atmosphereClass: 'bg-muted-plum text-pale-pink',
         content: [
           "It was only after — ridge secured, horn silenced, everyone celebrating Orlei's team like always — that Jasira slipped back to the one place that never made her feel like a spare part: the Athenaeum, Duskbloom's old book-hall, half library and half greenhouse, vines grown up through the shelves.",
@@ -92,6 +98,8 @@ export const chapters: Chapter[] = [
         chapterId: 'chapter-1',
         title: 'The Grandmother\'s Journal',
         sceneIndex: 4,
+        illustration: '/images/details/notebook.webp',
+        illustrationAlt: 'The grandmother’s water-stained journal',
         atmosphereClass: 'bg-midnight text-parchment',
         content: [
           "That night she pulled out the one thing she'd never quite known what to do with: her late grandmother's old journal, water-stained, left to her the winter before. She'd read it a dozen times for comfort and never once for answers. On the last page, underlined twice, was a line she'd always assumed was just sentimental:",
@@ -109,6 +117,8 @@ export const chapters: Chapter[] = [
         chapterId: 'chapter-1',
         title: 'The Last Page',
         sceneIndex: 5,
+        illustration: '/images/story/blank-page.webp',
+        illustrationAlt: 'The vast floating library of unwritten pages',
         atmosphereClass: 'bg-midnight text-parchment',
         content: [
           "Ren found her in the Athenaeum at 2 in the morning, surrounded by every book she owned, all open to their final chapters, cross-referencing which lines had faded and which hadn't.",
@@ -138,6 +148,8 @@ export const chapters: Chapter[] = [
         chapterId: 'chapter-1',
         title: 'The Unexpected Ending',
         sceneIndex: 6,
+        illustration: '/images/story/restored-ending.webp',
+        illustrationAlt: 'A single page drifting down — an ending written for Jasira',
         atmosphereClass: 'bg-lavender text-midnight',
         content: [
           "Jasira opened her Bloomverse, and for the first time she didn't write about herself at all.",

@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Eye, EyeOff, Maximize, Minimize } from 'lucide-react';
+import Image from 'next/image';
 
 export interface ComicPage {
   id: string;
@@ -193,12 +194,16 @@ export function ComicViewer({ chapters }: ComicViewerProps) {
             transition={{ duration: 0.2 }}
             className="w-full max-w-3xl h-full max-h-[90vh] flex items-center justify-center p-4 md:p-8"
           >
-             {/* Placeholder for the actual comic image */}
-             <div className="w-full h-full bg-plum/10 border border-white/5 shadow-2xl flex flex-col items-center justify-center relative"
+             {/* Actual Comic Page Image */}
+             <div className="w-full h-full max-h-[85vh] bg-midnight/60 rounded-lg border border-warm-gold/20 shadow-2xl flex flex-col items-center justify-center relative overflow-hidden"
                   style={{ aspectRatio: '2/3' }}>
-                 <p className="font-display text-2xl text-cream/50 mb-2">{currentChapter.title}</p>
-                 <p className="font-ui text-warm-gold/50 tracking-widest">PAGE {currentPageIndex + 1}</p>
-                 <p className="absolute bottom-4 text-xs font-ui text-lavender/30">Comic Image Placeholder</p>
+                 <Image
+                   src={currentPage.src}
+                   alt={currentPage.alt || `Comic Page ${currentPage.pageNumber}`}
+                   fill
+                   className="object-contain"
+                   priority
+                 />
              </div>
           </motion.div>
         </AnimatePresence>

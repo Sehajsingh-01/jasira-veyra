@@ -6,31 +6,7 @@ export const metadata = {
   description: 'Visual archive of the Bloomverse.',
 };
 
-// Mock data
-const mockImages: GalleryImage[] = Array.from({ length: 16 }).map((_, i) => {
-  const categories = ['JASIRA', 'MOCHI', 'MAGIC', 'WORLD', 'STORY', 'COMIC', 'DETAILS'];
-  const category = categories[i % categories.length];
-  // Mix of aspect ratios for masonry: portrait, landscape, square
-  const ratios = [
-    { w: 800, h: 1200 },
-    { w: 1200, h: 800 },
-    { w: 1000, h: 1000 },
-    { w: 800, h: 1400 },
-  ];
-  const ratio = ratios[i % 4];
-
-  return {
-    id: `img-${i + 1}`,
-    title: `${category.charAt(0) + category.slice(1).toLowerCase()} Artwork ${i + 1}`,
-    category,
-    src: `/images/gallery/full-${i + 1}.webp`,
-    thumbnail: `/images/gallery/thumb-${i + 1}.webp`,
-    description: `A beautiful piece showcasing the ${category.toLowerCase()} of the Bloomverse.`,
-    tags: [category.toLowerCase(), 'bloomverse', 'fantasy'],
-    width: ratio.w,
-    height: ratio.h,
-  };
-});
+import { gallery } from '@/data/gallery';
 
 export default function GalleryPage() {
   return (
@@ -45,7 +21,7 @@ export default function GalleryPage() {
           </h1>
         </header>
 
-        <Gallery images={mockImages} />
+        <Gallery images={gallery} />
       </div>
     </main>
   );

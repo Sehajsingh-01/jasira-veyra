@@ -188,11 +188,11 @@ export function ComicViewer({ chapters }: ComicViewerProps) {
         <AnimatePresence mode="wait">
           <motion.div
             key={`${currentChapterIndex}-${currentPageIndex}`}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.2 }}
-            className="w-full max-w-3xl h-full max-h-[90vh] flex items-center justify-center p-4 md:p-8"
+            initial={{ opacity: 0, x: 28, scale: 0.98 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: -28, scale: 0.98 }}
+            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full max-w-3xl h-full max-h-[90vh] flex items-center justify-center p-4 md:p-8 gpu-layer"
           >
              {/* Actual Comic Page Image */}
              <div className="w-full h-full max-h-[85vh] bg-midnight/60 rounded-lg border border-warm-gold/20 shadow-2xl flex flex-col items-center justify-center relative overflow-hidden"
@@ -208,21 +208,23 @@ export function ComicViewer({ chapters }: ComicViewerProps) {
           </motion.div>
         </AnimatePresence>
 
-        {/* Side Navigation Buttons (desktop) */}
+        {/* Side Navigation Buttons (desktop) with iOS Springs */}
         <AnimatePresence>
           {showUI && (
             <>
               <button 
+                type="button"
                 onClick={(e) => { e.stopPropagation(); prev(); }}
                 disabled={currentPageIndex === 0 && currentChapterIndex === 0}
-                className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-midnight/50 hover:bg-plum/80 text-white rounded-full backdrop-blur-sm disabled:opacity-30 transition-all z-30 hidden md:block"
+                className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-midnight/60 hover:bg-plum/90 text-white rounded-full backdrop-blur-md disabled:opacity-30 transition-all z-30 hidden md:block cursor-pointer touch-manipulation ios-touch-spring border border-white/10 shadow-lg"
               >
                 <ChevronLeft size={32} />
               </button>
               <button 
+                type="button"
                 onClick={(e) => { e.stopPropagation(); next(); }}
                 disabled={currentPageIndex === pages.length - 1 && currentChapterIndex === chapters.length - 1}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-midnight/50 hover:bg-plum/80 text-white rounded-full backdrop-blur-sm disabled:opacity-30 transition-all z-30 hidden md:block"
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-midnight/60 hover:bg-plum/90 text-white rounded-full backdrop-blur-md disabled:opacity-30 transition-all z-30 hidden md:block cursor-pointer touch-manipulation ios-touch-spring border border-white/10 shadow-lg"
               >
                 <ChevronRight size={32} />
               </button>
@@ -238,17 +240,19 @@ export function ComicViewer({ chapters }: ComicViewerProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="h-24 w-full bg-midnight/80 border-t border-white/10 flex items-center px-4 overflow-x-auto no-scrollbar gap-2 z-40 flex-shrink-0"
+            transition={{ type: 'spring', stiffness: 420, damping: 30 }}
+            className="h-24 w-full bg-midnight/80 border-t border-white/10 flex items-center px-4 overflow-x-auto no-scrollbar gap-2 z-40 flex-shrink-0 overscroll-contain gpu-layer"
           >
             {pages.map((p, idx) => (
               <button
                 key={p.id}
+                type="button"
                 onClick={() => setCurrentPageIndex(idx)}
-                className={`flex-shrink-0 h-16 w-12 rounded border-2 transition-all ${
-                  currentPageIndex === idx ? 'border-warm-gold scale-110' : 'border-transparent opacity-50 hover:opacity-100'
+                className={`flex-shrink-0 h-16 w-12 rounded border-2 transition-all duration-200 cursor-pointer touch-manipulation ios-touch-spring ${
+                  currentPageIndex === idx ? 'border-warm-gold scale-110 shadow-[0_0_12px_rgba(212,168,83,0.5)]' : 'border-transparent opacity-50 hover:opacity-100'
                 } bg-plum/30`}
               >
-                <span className="text-[8px] text-lavender/50 flex h-full items-center justify-center font-ui">{idx + 1}</span>
+                <span className="text-[8px] text-lavender/70 flex h-full items-center justify-center font-ui font-medium">{idx + 1}</span>
               </button>
             ))}
           </motion.div>

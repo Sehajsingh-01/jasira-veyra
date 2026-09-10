@@ -80,19 +80,23 @@ export function MagicCard({ ability }: MagicCardProps) {
         )}
       </div>
 
-      {/* Floating Petal Particles (CSS-based approximation) */}
+      {/* Floating Petal Particles (Deterministic for clean hydration) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-        {[...Array(3)].map((_, i) => (
+        {[
+          { top: '25%', left: '30%', duration: '2.5s', delay: '0.2s', scale: 0.8 },
+          { top: '70%', left: '75%', duration: '3.2s', delay: '0.5s', scale: 1 },
+          { top: '45%', left: '60%', duration: '2.8s', delay: '0.8s', scale: 0.7 },
+        ].map((p, i) => (
           <div
             key={i}
             className="absolute w-2 h-2 rounded-full blur-[1px] animate-pulse"
             style={{
               backgroundColor: ability.color,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDuration: `${2 + Math.random() * 2}s`,
-              animationDelay: `${Math.random()}s`,
-              transform: `scale(${0.5 + Math.random() * 0.5})`,
+              top: p.top,
+              left: p.left,
+              animationDuration: p.duration,
+              animationDelay: p.delay,
+              transform: `scale(${p.scale})`,
             }}
           />
         ))}

@@ -79,7 +79,7 @@ export const chapters: Chapter[] = [
         chapterId: 'chapter-1',
         title: 'The Athenaeum',
         sceneIndex: 3,
-        illustration: '/images/story/athenaeum.webp',
+        illustration: '/images/story/athenaeum.jpg',
         illustrationAlt: 'The ancient book-hall of Duskbloom',
         atmosphereClass: 'bg-muted-plum text-pale-pink',
         content: [

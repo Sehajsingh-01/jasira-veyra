@@ -1,4 +1,5 @@
 import { chapters } from '@/data/chapters';
+import { triggerGlobalDownloadNotification } from '@/context/DownloadContext';
 
 export interface StoryMetadata {
   title: string;
@@ -432,6 +433,15 @@ export function generatePrintableHtmlStory(): string {
 
 export function triggerDownload(content: string, filename: string, mimeType: string) {
   if (typeof window === 'undefined') return;
+
+  // Trigger magic vibes banner popup
+  triggerGlobalDownloadNotification({
+    filename,
+    title: 'Oh, Thank You for Downloading!',
+    message: 'The illuminated manuscript has begun descending. May Jasira’s quiet memories bloom softly in your heart.',
+    format: filename.split('.').pop()?.toUpperCase() || 'FILE',
+  });
+
   const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -452,6 +462,15 @@ export function triggerDownload(content: string, filename: string, mimeType: str
 
 export function downloadFullBookPdf() {
   if (typeof window === 'undefined') return;
+
+  // Trigger magic vibes banner popup
+  triggerGlobalDownloadNotification({
+    filename: 'Jas_of_Duskbloom_FULL.pdf',
+    title: 'Oh, Thank You for Downloading!',
+    message: 'The complete Duskbloom novel is now yours. Thank you for walking alongside Jasira and Mochi.',
+    format: 'PDF',
+  });
+
   const a = document.createElement('a');
   a.href = '/Jas_of_Duskbloom_FULL.pdf';
   a.download = 'Jas_of_Duskbloom_FULL.pdf';

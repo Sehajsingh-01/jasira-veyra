@@ -220,11 +220,13 @@ export default function BloomverseThreeCanvas({
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // 7. Animation Loop
+    // 7. Animation Loop with Off-Screen Pause (Guarantees silky 120fps scrolling down)
+    let isVisible = true;
     let animationFrameId: number;
     let clock = new THREE.Clock();
 
     const animate = () => {
+      if (!isVisible) return; // Pause WebGL rendering when scrolled out of view!
       const elapsedTime = clock.getElapsedTime();
 
       // Smooth mouse interpolation
@@ -257,6 +259,21 @@ export default function BloomverseThreeCanvas({
       animationFrameId = requestAnimationFrame(animate);
     };
 
+    // IntersectionObserver to pause loop when hero scrolls out of view
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry && entry.isIntersecting) {
+        if (!isVisible) {
+          isVisible = true;
+          animationFrameId = requestAnimationFrame(animate);
+        }
+      } else {
+        isVisible = false;
+        cancelAnimationFrame(animationFrameId);
+      }
+    }, { threshold: 0.05 });
+
+    intersectionObserver.observe(mount);
     animate();
 
     // 8. Responsive Resize
@@ -277,6 +294,7 @@ export default function BloomverseThreeCanvas({
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       resizeObserver.disconnect();
+      intersectionObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
 
       particleGeo.dispose();

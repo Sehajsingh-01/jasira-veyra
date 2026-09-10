@@ -6,6 +6,16 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ArrowRight, Menu, X, BookOpen, Compass, Feather, Sparkles } from 'lucide-react';
 
+const TAGLINE_VERSES = [
+  'A Quiet Soul in a Loud World',
+  'Where Flowers Remember',
+  'Quiet Empathy Over Swords',
+  'Seeds Planted in Stillness',
+  'Magic in the Quiet Places',
+  'Some Companions Make Days Brighter',
+  'The Flowers Went Quiet',
+];
+
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Story', href: '/story' },
@@ -130,10 +140,19 @@ export default function Navbar() {
     item.type.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const [taglineIndex, setTaglineIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTaglineIndex((prev) => (prev + 1) % TAGLINE_VERSES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <>
-      {/* Pinned Fixed Top Navigation Bar (Always Visible at z-[150]) */}
-      <header className="fixed top-0 left-0 right-0 z-[150] bg-midnight/95 backdrop-blur-xl border-b border-lavender/10 shadow-[0_4px_30px_rgba(0,0,0,0.6)]">
+      {/* Pinned Fixed Top Navigation Bar */}
+      <header className="fixed top-0 left-0 right-0 z-[260] bg-midnight/95 backdrop-blur-xl border-b border-lavender/10 shadow-[0_4px_30px_rgba(0,0,0,0.6)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
           {/* Brand Logo & Title */}
           <Link
@@ -146,9 +165,24 @@ export default function Navbar() {
               <span className="font-display text-lg sm:text-2xl font-semibold tracking-[0.2em] text-cream transition-colors duration-300 group-hover:text-warm-gold group-hover:drop-shadow-[0_0_8px_rgba(212,168,83,0.5)] leading-tight">
                 JASIRA VEYRA
               </span>
-              <span className="font-ui text-[8px] sm:text-[9px] tracking-[0.28em] text-lavender/60 uppercase font-medium leading-tight">
-                A Quiet Soul in a Loud World
-              </span>
+              {/* Rotating Tagline (Single line where user marked) — iOS Smooth Blur-Fade every 5s */}
+              <div className="relative h-3.5 sm:h-4 overflow-hidden min-w-[170px] sm:min-w-[210px] max-w-[185px] sm:max-w-[240px]">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={taglineIndex}
+                    initial={{ opacity: 0, y: 5, filter: 'blur(3px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, y: -5, filter: 'blur(3px)' }}
+                    transition={{
+                      duration: 0.45,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    className="font-ui text-[8px] sm:text-[9px] tracking-[0.28em] text-lavender/70 uppercase font-medium leading-tight block truncate select-none"
+                  >
+                    {TAGLINE_VERSES[taglineIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
             </div>
           </Link>
 
@@ -185,7 +219,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="w-9 h-9 rounded-full border border-lavender/25 flex items-center justify-center text-cream/80 hover:text-warm-gold hover:border-warm-gold/60 transition-all duration-300 bg-white/[0.02] hover:bg-warm-gold/5 cursor-pointer touch-manipulation"
+              className="w-9 h-9 rounded-full border border-lavender/25 flex items-center justify-center text-cream/80 hover:text-warm-gold hover:border-warm-gold/60 transition-all duration-300 bg-white/[0.02] hover:bg-warm-gold/5 cursor-pointer touch-manipulation ios-touch-spring"
               aria-label="Search Chapters, Characters & Lore"
               title="Search (Ctrl + K)"
             >
@@ -194,14 +228,14 @@ export default function Navbar() {
 
             <Link
               href="/story"
-              className="px-4 py-1.5 rounded-full border border-warm-gold/60 bg-warm-gold/10 hover:bg-warm-gold/20 text-cream text-xs font-ui tracking-wider uppercase flex items-center gap-2 hover:shadow-[0_0_15px_rgba(212,168,83,0.3)] transition-all duration-300 font-medium cursor-pointer"
+              className="px-4 py-1.5 rounded-full border border-warm-gold/60 bg-warm-gold/10 hover:bg-warm-gold/20 text-cream text-xs font-ui tracking-wider uppercase flex items-center gap-2 hover:shadow-[0_0_15px_rgba(212,168,83,0.3)] transition-all duration-300 font-medium cursor-pointer touch-manipulation ios-touch-spring"
             >
               <span>Enter the World</span>
               <ArrowRight size={13} className="text-warm-gold" />
             </Link>
           </div>
 
-          {/* Mobile Right Controls: Animated Morphing Hamburger Button (Android & Windows) */}
+          {/* Mobile Right Controls: Animated Morphing Hamburger Button (Instant Zero-Lag Tap) */}
           <div className="flex items-center lg:hidden relative z-30">
             <motion.button
               type="button"
@@ -210,43 +244,57 @@ export default function Navbar() {
                 setIsOpen((prev) => !prev);
               }}
               whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.92 }}
-              className={`w-12 h-12 min-w-[48px] min-h-[48px] rounded-full border flex items-center justify-center transition-all duration-200 touch-manipulation cursor-pointer select-none ${
+              whileTap={{ scale: 0.88 }}
+              transition={{ type: 'spring', stiffness: 420, damping: 24 }}
+              className={`w-12 h-12 min-w-[48px] min-h-[48px] rounded-full border flex items-center justify-center transition-colors duration-200 touch-manipulation cursor-pointer select-none gpu-layer ${
                 isOpen
-                  ? 'border-warm-gold bg-warm-gold/20 shadow-[0_0_20px_rgba(212,168,83,0.45)]'
+                  ? 'border-warm-gold bg-warm-gold/25 shadow-[0_0_25px_rgba(212,168,83,0.5)]'
                   : 'border-warm-gold/50 bg-white/10 hover:border-warm-gold hover:bg-warm-gold/15 active:bg-warm-gold/30 shadow-md'
               }`}
               aria-label={isOpen ? 'Close Navigation Menu' : 'Open Navigation Menu'}
               aria-expanded={isOpen}
             >
-              {/* Morphing 3-Line Animated Hamburger Icon */}
-              <div className="relative w-6 h-[18px] flex flex-col justify-between items-center pointer-events-none">
+              {/* Morphing 3-Line Animated Hamburger Icon with Silky iOS Spring Physics */}
+              <div className="relative w-6 h-[18px] flex flex-col justify-between items-center pointer-events-none gpu-layer">
                 <motion.span
-                  className="w-6 h-[2.5px] rounded-full block origin-center"
+                  className="w-6 h-[2.5px] rounded-full block origin-center gpu-layer"
                   animate={
                     isOpen
                       ? { rotate: 45, y: 7.75, backgroundColor: '#D4A853' }
                       : { rotate: 0, y: 0, backgroundColor: '#FAF6EE' }
                   }
-                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 320,
+                    damping: 26,
+                    mass: 0.65,
+                  }}
                 />
                 <motion.span
-                  className="w-6 h-[2.5px] rounded-full block origin-center"
+                  className="w-6 h-[2.5px] rounded-full block origin-center gpu-layer"
                   animate={
                     isOpen
-                      ? { opacity: 0, scaleX: 0, x: 8 }
-                      : { opacity: 1, scaleX: 1, x: 0, backgroundColor: '#FAF6EE' }
+                      ? { opacity: 0, scale: 0 }
+                      : { opacity: 1, scale: 1, backgroundColor: '#FAF6EE' }
                   }
-                  transition={{ duration: 0.18 }}
+                  transition={{
+                    duration: 0.22,
+                    ease: [0.32, 0.72, 0, 1],
+                  }}
                 />
                 <motion.span
-                  className="w-6 h-[2.5px] rounded-full block origin-center"
+                  className="w-6 h-[2.5px] rounded-full block origin-center gpu-layer"
                   animate={
                     isOpen
                       ? { rotate: -45, y: -7.75, backgroundColor: '#D4A853' }
                       : { rotate: 0, y: 0, backgroundColor: '#FAF6EE' }
                   }
-                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 320,
+                    damping: 26,
+                    mass: 0.65,
+                  }}
                 />
               </div>
             </motion.button>
@@ -254,27 +302,30 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Nav Side Panel Drawer — Animated with AnimatePresence for Buttery Smooth Android & Windows Transitions */}
+      {/* Mobile Nav Side Panel Drawer — iOS Silky Smooth Physics for Android & iOS */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-[200] lg:hidden overflow-hidden">
-            {/* Animated Backdrop Blur */}
+          <div className="fixed inset-0 z-[250] lg:hidden overflow-hidden">
+            {/* Animated Backdrop Blur with iOS Deceleration Curve */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
+              exit={{ opacity: 0, transition: { duration: 0.24, ease: [0.32, 0.72, 0, 1] } }}
+              transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
               onClick={() => setIsOpen(false)}
-              className="absolute inset-0 bg-black/85 backdrop-blur-sm cursor-pointer touch-manipulation"
+              className="absolute inset-0 bg-black/85 backdrop-blur-sm cursor-pointer touch-manipulation gpu-layer"
             />
 
-            {/* Animated Sliding Side Drawer Panel */}
+            {/* Animated Sliding Side Drawer Panel with Apple iOS Sheet Spring & Dismissal */}
             <motion.div
-              initial={{ x: '100%', opacity: 0.8 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: '100%', opacity: 0.8 }}
-              transition={{ type: 'spring', damping: 28, stiffness: 300, mass: 0.85 }}
-              className="absolute top-0 right-0 bottom-0 w-72 sm:w-80 max-w-[85vw] h-full bg-[#0E0C1B] border-l border-warm-gold/30 shadow-[-15px_0_50px_rgba(0,0,0,0.95)] flex flex-col z-10 select-none overflow-hidden"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{
+                x: '100%',
+                transition: { duration: 0.28, ease: [0.32, 0.72, 0, 1] },
+              }}
+              transition={{ type: 'spring', damping: 32, stiffness: 300, mass: 0.75 }}
+              className="absolute top-0 right-0 bottom-0 w-72 sm:w-80 max-w-[85vw] h-full bg-[#0E0C1B] border-l border-warm-gold/30 shadow-[-15px_0_50px_rgba(0,0,0,0.95)] flex flex-col z-10 select-none overflow-hidden gpu-layer"
             >
               {/* Drawer Top Header */}
               <div className="flex items-center justify-between px-5 h-16 sm:h-20 border-b border-lavender/10 shrink-0 bg-midnight/80">
@@ -292,18 +343,18 @@ export default function Navbar() {
                 <motion.button
                   type="button"
                   whileHover={{ rotate: 90, scale: 1.08 }}
-                  whileTap={{ rotate: 180, scale: 0.9 }}
-                  transition={{ duration: 0.2 }}
-                  className="w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-cream active:text-warm-gold hover:text-warm-gold transition-colors rounded-full border border-warm-gold/30 bg-white/5 hover:bg-warm-gold/15 cursor-pointer touch-manipulation active:scale-95 shadow-sm"
+                  whileTap={{ rotate: 90, scale: 0.88 }}
+                  transition={{ type: 'spring', stiffness: 450, damping: 25 }}
+                  className="w-10 h-10 min-w-[40px] min-h-[40px] flex items-center justify-center text-cream active:text-warm-gold hover:text-warm-gold transition-colors rounded-full border border-warm-gold/30 bg-white/5 hover:bg-warm-gold/15 cursor-pointer touch-manipulation shadow-sm ios-touch-spring"
                   onClick={() => setIsOpen(false)}
                   aria-label="Close Menu"
                 >
-                  <X size={20} className="pointer-events-none" />
+                  <X size={18} className="pointer-events-none" />
                 </motion.button>
               </div>
 
               {/* Staggered Animated Navigation Links */}
-              <div className="flex-1 py-5 px-4 overflow-y-auto space-y-2">
+              <div className="flex-1 py-5 px-4 overflow-y-auto space-y-2 overscroll-contain">
                 {NAV_LINKS.map((link, idx) => {
                   const isActive =
                     link.href === '/'
@@ -316,18 +367,18 @@ export default function Navbar() {
                   return (
                     <motion.div
                       key={link.label}
-                      initial={{ opacity: 0, x: 22 }}
-                      animate={{ opacity: 1, x: 0 }}
+                      initial={{ opacity: 0, x: 26, scale: 0.97 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
                       transition={{
-                        delay: 0.05 + idx * 0.04,
-                        duration: 0.25,
+                        delay: 0.04 + idx * 0.035,
+                        duration: 0.3,
                         ease: [0.16, 1, 0.3, 1],
                       }}
                     >
                       <Link
                         href={link.href}
                         onClick={() => setIsOpen(false)}
-                        className={`flex items-center justify-between py-3.5 px-4 rounded-xl font-ui text-sm uppercase tracking-widest transition-all duration-150 touch-manipulation active:scale-[0.98] ${
+                        className={`flex items-center justify-between py-3.5 px-4 rounded-xl font-ui text-sm uppercase tracking-widest transition-all duration-200 touch-manipulation ios-touch-spring ${
                           isActive
                             ? 'bg-warm-gold/25 text-warm-gold font-bold border border-warm-gold/50 shadow-[0_0_15px_rgba(212,168,83,0.25)]'
                             : isJournal
@@ -357,8 +408,8 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    delay: 0.05 + NAV_LINKS.length * 0.04,
-                    duration: 0.25,
+                    delay: 0.04 + NAV_LINKS.length * 0.035,
+                    duration: 0.3,
                     ease: [0.16, 1, 0.3, 1],
                   }}
                   className="pt-4 px-1"
@@ -366,7 +417,7 @@ export default function Navbar() {
                   <Link
                     href="/story"
                     onClick={() => setIsOpen(false)}
-                    className="w-full py-3.5 rounded-full border border-warm-gold bg-warm-gold/20 active:bg-warm-gold/30 hover:bg-warm-gold/30 text-cream text-xs font-ui tracking-wider uppercase flex items-center justify-center gap-2 font-semibold shadow-[0_0_20px_rgba(212,168,83,0.25)] cursor-pointer touch-manipulation active:scale-95 transition-all duration-200"
+                    className="w-full py-3.5 rounded-full border border-warm-gold bg-warm-gold/20 active:bg-warm-gold/35 hover:bg-warm-gold/30 text-cream text-xs font-ui tracking-wider uppercase flex items-center justify-center gap-2 font-semibold shadow-[0_0_20px_rgba(212,168,83,0.25)] cursor-pointer touch-manipulation ios-touch-spring"
                   >
                     <span className="pointer-events-none">Enter the World</span>
                     <ArrowRight size={14} className="text-warm-gold pointer-events-none" />
@@ -374,17 +425,21 @@ export default function Navbar() {
                 </motion.div>
               </div>
 
-              {/* Drawer Bottom Footer */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.35, duration: 0.3 }}
-                className="p-4 text-center border-t border-lavender/10 shrink-0 bg-midnight/50"
-              >
-                <p className="font-handwritten text-lg text-lavender/70">
-                  &quot;A quiet soul in a loud world.&quot;
-                </p>
-              </motion.div>
+              {/* Drawer Bottom Footer with Rotating Verse */}
+              <div className="p-4 text-center border-t border-lavender/10 shrink-0 bg-midnight/50">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={taglineIndex}
+                    initial={{ opacity: 0, y: 5, filter: 'blur(4px)' }}
+                    animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                    exit={{ opacity: 0, y: -5, filter: 'blur(4px)' }}
+                    transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                    className="font-handwritten text-base sm:text-lg text-lavender/80"
+                  >
+                    &quot;{TAGLINE_VERSES[taglineIndex]}&quot;
+                  </motion.p>
+                </AnimatePresence>
+              </div>
             </motion.div>
           </div>
         )}
@@ -398,16 +453,17 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
               onClick={() => setSearchOpen(false)}
-              className="fixed inset-0 bg-black/85 backdrop-blur-md touch-manipulation cursor-pointer"
+              className="fixed inset-0 bg-black/85 backdrop-blur-md touch-manipulation cursor-pointer gpu-layer"
             />
 
             <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: -20 }}
+              initial={{ scale: 0.92, opacity: 0, y: -20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
-              className="relative w-full max-w-xl bg-midnight border border-warm-gold/40 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] p-4 sm:p-6 z-10"
+              exit={{ scale: 0.94, opacity: 0, y: -12 }}
+              transition={{ type: 'spring', stiffness: 420, damping: 30, mass: 0.8 }}
+              className="relative w-full max-w-xl bg-midnight border border-warm-gold/40 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] p-4 sm:p-6 z-10 gpu-layer"
             >
               <div className="flex items-center gap-3 border-b border-lavender/20 pb-3">
                 <Search size={20} className="text-warm-gold shrink-0" />
@@ -422,13 +478,13 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setSearchOpen(false)}
-                  className="text-lavender/60 hover:text-cream text-xs uppercase tracking-wider font-ui px-2 py-1 rounded cursor-pointer"
+                  className="text-lavender/60 hover:text-cream text-xs uppercase tracking-wider font-ui px-2 py-1 rounded cursor-pointer touch-manipulation ios-touch-subtle"
                 >
                   ESC
                 </button>
               </div>
 
-              <div className="mt-4 max-h-72 overflow-y-auto space-y-1">
+              <div className="mt-4 max-h-72 overflow-y-auto space-y-1 overscroll-contain">
                 {filteredSearchItems.length > 0 ? (
                   filteredSearchItems.map((item) => {
                     const Icon = item.icon;
@@ -437,7 +493,7 @@ export default function Navbar() {
                         key={item.title}
                         href={item.href}
                         onClick={() => setSearchOpen(false)}
-                        className="flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-colors group cursor-pointer"
+                        className="flex items-center justify-between p-3 rounded-xl hover:bg-white/5 transition-all duration-150 group cursor-pointer touch-manipulation ios-touch-spring"
                       >
                         <div className="flex items-center gap-3">
                           <div className="p-2 rounded-lg bg-plum/30 text-warm-gold group-hover:bg-warm-gold/20 transition-colors">

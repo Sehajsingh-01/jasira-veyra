@@ -127,9 +127,9 @@ const ARCHIVE_DATA: Record<string, ArchiveItem[]> = {
       id: 'm-bloom',
       title: 'Petal Bloom',
       category: 'Petal Magic',
-      src: '/images/jasira/magic/flower-bloom.webp',
+      src: '/images/jasira/magic/petal-verse.jpg',
       description: 'Cupped hands gathering soft lilac light into a blossoming lotus of memories.',
-      aspect: 'aspect-[3/4]'
+      aspect: 'aspect-video'
     },
     {
       id: 'm-crest',
@@ -331,18 +331,26 @@ export default function CharacterArchive({ character, expressions }: CharacterAr
 
       {/* Category Tabs */}
       <section>
-        <div className="flex overflow-x-auto pb-4 no-scrollbar border-b border-lavender/10 gap-8">
+        <div className="flex overflow-x-auto pb-4 no-scrollbar border-b border-lavender/10 gap-6 sm:gap-8 overscroll-contain">
           {TABS.map((tab) => (
             <button
               key={tab}
+              type="button"
               onClick={() => setActiveTab(tab)}
-              className={`font-ui text-xs tracking-widest whitespace-nowrap px-1 py-2 border-b-2 transition-colors ${
+              className={`relative font-ui text-xs tracking-widest whitespace-nowrap px-2 py-2.5 transition-colors touch-manipulation cursor-pointer select-none ios-touch-subtle ${
                 activeTab === tab 
-                  ? 'text-warm-gold border-warm-gold' 
-                  : 'text-lavender/50 border-transparent hover:text-lavender'
+                  ? 'text-warm-gold font-semibold' 
+                  : 'text-lavender/50 hover:text-lavender'
               }`}
             >
-              {tab}
+              <span>{tab}</span>
+              {activeTab === tab && (
+                <motion.div
+                  layoutId="activeTabUnderline"
+                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-warm-gold shadow-[0_0_12px_rgba(212,168,83,0.8)]"
+                  transition={{ type: 'spring', stiffness: 450, damping: 30 }}
+                />
+              )}
             </button>
           ))}
         </div>
@@ -352,10 +360,10 @@ export default function CharacterArchive({ character, expressions }: CharacterAr
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
             >
               {activeTab === 'EXPRESSIONS' ? (
                 <ExpressionGrid expressions={expressions} />
@@ -364,10 +372,11 @@ export default function CharacterArchive({ character, expressions }: CharacterAr
                   {currentItems.map((item) => (
                     <motion.div
                       key={item.id}
-                      whileHover={{ scale: 1.03, y: -4 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={{ scale: 1.02, y: -3 }}
+                      whileTap={{ scale: 0.96 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                       onClick={() => setSelectedItem(item)}
-                      className="group cursor-pointer bg-plum/20 border border-lavender/15 rounded-xl overflow-hidden shadow-lg hover:border-warm-gold/40 hover:shadow-[0_0_20px_rgba(212,168,83,0.25)] transition-all duration-300 flex flex-col"
+                      className="group cursor-pointer bg-plum/20 border border-lavender/15 rounded-xl overflow-hidden shadow-lg hover:border-warm-gold/40 hover:shadow-[0_0_20px_rgba(212,168,83,0.25)] transition-colors duration-200 flex flex-col touch-manipulation ios-touch-spring gpu-layer"
                     >
                       <div className={`relative ${item.aspect || 'aspect-[3/4]'} w-full overflow-hidden bg-midnight/40`}>
                         <Image
@@ -409,11 +418,13 @@ export default function CharacterArchive({ character, expressions }: CharacterAr
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight/90 backdrop-blur-md"
+            transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight/90 backdrop-blur-md gpu-layer"
             onClick={() => setSelectedItem(null)}
           >
             <button 
-              className="absolute top-6 right-6 text-cream/70 hover:text-cream z-50 p-3 bg-plum/40 hover:bg-plum/70 rounded-full border border-lavender/20 transition-all"
+              type="button"
+              className="absolute top-6 right-6 text-cream/70 hover:text-cream z-50 p-3 bg-plum/40 hover:bg-plum/70 rounded-full border border-lavender/20 transition-colors cursor-pointer touch-manipulation ios-touch-spring"
               onClick={() => setSelectedItem(null)}
               aria-label="Close"
             >
@@ -423,14 +434,16 @@ export default function CharacterArchive({ character, expressions }: CharacterAr
             {currentItems.length > 1 && (
               <>
                 <button
-                  className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-cream/70 hover:text-cream z-50 p-3 bg-plum/40 hover:bg-plum/70 rounded-full border border-lavender/20 transition-all"
+                  type="button"
+                  className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-cream/70 hover:text-cream z-50 p-3 bg-plum/40 hover:bg-plum/70 rounded-full border border-lavender/20 transition-colors cursor-pointer touch-manipulation ios-touch-spring"
                   onClick={(e) => { e.stopPropagation(); handlePrev(); }}
                   aria-label="Previous"
                 >
                   <ChevronLeft size={28} />
                 </button>
                 <button
-                  className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-cream/70 hover:text-cream z-50 p-3 bg-plum/40 hover:bg-plum/70 rounded-full border border-lavender/20 transition-all"
+                  type="button"
+                  className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-cream/70 hover:text-cream z-50 p-3 bg-plum/40 hover:bg-plum/70 rounded-full border border-lavender/20 transition-colors cursor-pointer touch-manipulation ios-touch-spring"
                   onClick={(e) => { e.stopPropagation(); handleNext(); }}
                   aria-label="Next"
                 >
@@ -440,11 +453,11 @@ export default function CharacterArchive({ character, expressions }: CharacterAr
             )}
 
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              initial={{ scale: 0.92, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ duration: 0.3 }}
-              className="relative max-w-2xl w-full bg-midnight/95 border border-warm-gold/40 rounded-2xl p-6 shadow-[0_0_50px_rgba(212,168,83,0.25)] flex flex-col items-center text-center overflow-hidden"
+              exit={{ scale: 0.94, opacity: 0, y: 15 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 28, mass: 0.8 }}
+              className="relative max-w-2xl w-full bg-midnight/95 border border-warm-gold/40 rounded-2xl p-6 shadow-[0_0_50px_rgba(212,168,83,0.25)] flex flex-col items-center text-center overflow-hidden gpu-layer"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative w-full max-w-md h-96 rounded-xl overflow-hidden mb-6 border-2 border-warm-gold/30 bg-plum/30 shadow-inner">

@@ -111,7 +111,7 @@ function ChapterCardContent({ chapter }: { chapter: any }) {
     (chapter.number === 1
       ? '/images/backgrounds/story-bg.webp'
       : chapter.number === 2
-      ? '/images/story/athenaeum.webp'
+      ? '/images/story/athenaeum.jpg'
       : chapter.number === 3
       ? '/images/story/hush-tendril.webp'
       : chapter.number === 4

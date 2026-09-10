@@ -23,12 +23,26 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
     text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior-y: none;
   }
   
   body {
     @apply bg-midnight font-body text-cream;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+  }
+
+  /* Zero tap delay & remove ugly Android grey/blue highlight boxes */
+  *, *::before, *::after {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  button, a, [role="button"], input, select, textarea {
+    touch-action: manipulation;
   }
 
   .font-display { font-family: var(--font-display); }
@@ -51,19 +65,71 @@
     color: var(--color-warm-gold);
   }
 
+  /* iOS Hardware-accelerated transitions & press effects for Android */
+  .gpu-layer {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+
+  /* Universal iOS Tactile Press for All Clickable Elements */
+  button:not(:disabled),
+  a,
+  [role="button"]:not([aria-disabled="true"]),
+  .ios-interactive {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent !important;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.2s ease, 
+                box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+
+  button:not(:disabled):active,
+  a:active,
+  [role="button"]:not([aria-disabled="true"]):active,
+  .ios-interactive:active {
+    transform: scale(0.965) translateZ(0);
+    filter: brightness(0.93) contrast(1.04);
+  }
+
+  .ios-touch-spring {
+    transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .ios-touch-spring:active {
+    transform: scale(0.95) translateZ(0);
+  }
+
+  .ios-touch-subtle {
+    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s ease;
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .ios-touch-subtle:active {
+    transform: scale(0.98) translateZ(0);
+    opacity: 0.88;
+  }
+
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-midnight);
+    background: #0B0A1A;
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-muted-plum);
-    border-radius: 3px;
+    background: linear-gradient(180deg, #D4A853 0%, #8A6B29 100%);
+    border-radius: 4px;
+    box-shadow: 0 0 8px rgba(212, 168, 83, 0.4);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-lavender);
+    background: linear-gradient(180deg, #FFF3D6 0%, #D4A853 100%);
+    box-shadow: 0 0 12px rgba(212, 168, 83, 0.8);
   }
 
   ::selection {

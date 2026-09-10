@@ -69,7 +69,7 @@ export function BookViewer() {
         <button
           type="button"
           onClick={goToCover}
-          className={`flex items-center gap-1.5 px-4 sm:px-5 py-2 min-h-[42px] text-xs sm:text-sm font-ui tracking-wider uppercase rounded-full transition-all duration-150 cursor-pointer touch-manipulation ${
+          className={`flex items-center gap-1.5 px-4 sm:px-5 py-2 min-h-[42px] text-xs sm:text-sm font-ui tracking-wider uppercase rounded-full transition-all duration-150 cursor-pointer touch-manipulation ios-touch-spring ${
             view === 'cover'
               ? 'bg-warm-gold text-midnight font-bold shadow-[0_0_20px_rgba(212,168,83,0.5)] scale-105'
               : 'bg-midnight/90 text-cream/70 border border-warm-gold/30 hover:text-warm-gold hover:border-warm-gold/60'
@@ -89,7 +89,7 @@ export function BookViewer() {
               key={spread.category}
               type="button"
               onClick={() => goToSpread(idx)}
-              className={`px-3.5 sm:px-4 py-2 min-h-[42px] text-[11px] sm:text-xs font-ui tracking-widest rounded-full transition-all duration-150 cursor-pointer touch-manipulation flex items-center gap-1.5 ${
+              className={`px-3.5 sm:px-4 py-2 min-h-[42px] text-[11px] sm:text-xs font-ui tracking-widest rounded-full transition-all duration-150 cursor-pointer touch-manipulation flex items-center gap-1.5 ios-touch-spring ${
                 isSelected
                   ? 'bg-warm-gold text-midnight font-bold shadow-[0_0_20px_rgba(212,168,83,0.5)] scale-105'
                   : 'bg-midnight/70 text-cream/75 border border-lavender/15 hover:text-cream hover:border-warm-gold/40'
@@ -245,7 +245,7 @@ export function BookViewer() {
               <button
                 type="button"
                 onClick={() => goToSpread(0)}
-                className="flex items-center justify-center gap-2.5 sm:gap-3 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-warm-gold text-midnight hover:bg-cream active:scale-95 font-ui text-xs sm:text-sm tracking-[0.25em] uppercase font-bold shadow-[0_0_30px_rgba(212,168,83,0.5)] hover:shadow-[0_0_45px_rgba(212,168,83,0.8)] transition-all duration-200 cursor-pointer touch-manipulation min-h-[48px]"
+                className="flex items-center justify-center gap-2.5 sm:gap-3 px-8 sm:px-10 py-3.5 sm:py-4 rounded-full bg-warm-gold text-midnight hover:bg-cream font-ui text-xs sm:text-sm tracking-[0.25em] uppercase font-bold shadow-[0_0_30px_rgba(212,168,83,0.5)] hover:shadow-[0_0_45px_rgba(212,168,83,0.8)] transition-all duration-200 cursor-pointer touch-manipulation min-h-[48px] ios-touch-spring"
               >
                 <BookOpen size={16} className="text-midnight shrink-0 pointer-events-none" />
                 <span className="pointer-events-none">Read Spreads (Page 1) →</span>
@@ -385,7 +385,7 @@ export function BookViewer() {
               <button
                 type="button"
                 onClick={handlePrevPage}
-                className="flex items-center gap-1 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-full text-[11px] sm:text-xs font-ui tracking-wider uppercase text-cream hover:text-warm-gold hover:bg-white/5 transition-all touch-manipulation cursor-pointer min-h-[40px]"
+                className="flex items-center gap-1 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-full text-[11px] sm:text-xs font-ui tracking-wider uppercase text-cream hover:text-warm-gold hover:bg-white/5 transition-all touch-manipulation cursor-pointer min-h-[40px] ios-touch-spring"
               >
                 <ChevronLeft size={14} className="pointer-events-none" />
                 <span className="hidden sm:inline pointer-events-none">
@@ -404,7 +404,7 @@ export function BookViewer() {
                 <button
                   type="button"
                   onClick={goToCover}
-                  className="flex items-center gap-1 sm:gap-1.5 px-3.5 py-2 rounded-full border border-warm-gold/60 text-warm-gold hover:bg-warm-gold/20 font-ui text-[10px] sm:text-[11px] tracking-widest uppercase transition-all touch-manipulation cursor-pointer min-h-[40px]"
+                  className="flex items-center gap-1 sm:gap-1.5 px-3.5 py-2 rounded-full border border-warm-gold/60 text-warm-gold hover:bg-warm-gold/20 font-ui text-[10px] sm:text-[11px] tracking-widest uppercase transition-all touch-manipulation cursor-pointer min-h-[40px] ios-touch-spring"
                 >
                   <RotateCcw size={11} className="pointer-events-none" />
                   <span className="pointer-events-none">Cover</span>
@@ -415,7 +415,7 @@ export function BookViewer() {
                 type="button"
                 onClick={handleNextPage}
                 disabled={currentSpread === SPREADS.length - 1}
-                className="flex items-center gap-1 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-full text-[11px] sm:text-xs font-ui tracking-wider uppercase text-cream hover:text-warm-gold hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all touch-manipulation cursor-pointer min-h-[40px]"
+                className="flex items-center gap-1 sm:gap-2 px-3.5 sm:px-4 py-2 rounded-full text-[11px] sm:text-xs font-ui tracking-wider uppercase text-cream hover:text-warm-gold hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all touch-manipulation cursor-pointer min-h-[40px] ios-touch-spring"
               >
                 <span className="pointer-events-none">Next</span>
                 <ChevronRight size={14} className="pointer-events-none" />

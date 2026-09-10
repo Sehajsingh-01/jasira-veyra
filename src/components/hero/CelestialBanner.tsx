@@ -75,7 +75,7 @@ function RadiantFairyStar({ size = 16 }: { size?: number }) {
 
 export default function CelestialBanner() {
   return (
-    <div className="relative z-20 w-full max-w-6xl mx-auto px-3 sm:px-6 mb-4 sm:mb-6 select-none">
+    <div className="relative z-20 w-full max-w-6xl mx-auto px-3 sm:px-6 mt-1 sm:mt-2 mb-4 sm:mb-6 select-none">
       {/* High-Resolution Panoramic Celestial Banner Artwork (Displayed on BOTH Desktop & Phone) */}
       <div className="relative w-full aspect-[1024/220] sm:aspect-[1024/170] min-h-[75px] xs:min-h-[95px] sm:min-h-[135px] md:min-h-[165px] rounded-xl sm:rounded-2xl overflow-hidden border border-warm-gold/30 shadow-[0_20px_60px_rgba(0,0,0,0.85)] bg-midnight group">
         <Image

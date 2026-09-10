@@ -10,6 +10,7 @@ import {
   triggerDownload,
   downloadFullBookPdf,
 } from '@/lib/storyDownloader';
+import { triggerGlobalDownloadNotification } from '@/context/DownloadContext';
 
 interface StoryDownloadButtonProps {
   variant?: 'hero' | 'compact' | 'inline' | 'reader';
@@ -55,6 +56,12 @@ export default function StoryDownloadButton({
   };
 
   const markPdfDownloaded = () => {
+    triggerGlobalDownloadNotification({
+      filename: 'Jas_of_Duskbloom_FULL.pdf',
+      format: 'PDF',
+      title: 'Oh, Thank You for Downloading!',
+      message: 'The complete Duskbloom novel is now yours. Thank you for walking alongside Jasira and Mochi.',
+    });
     setDownloadedFormat('pdf');
     setTimeout(() => setDownloadedFormat(null), 3500);
   };
@@ -69,7 +76,7 @@ export default function StoryDownloadButton({
           target="_blank"
           rel="noopener noreferrer"
           onClick={markPdfDownloaded}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-warm-gold/15 border border-warm-gold/40 text-warm-gold hover:bg-warm-gold/25 font-ui text-xs tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(212,168,83,0.15)] cursor-pointer touch-manipulation"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-warm-gold/15 border border-warm-gold/40 text-warm-gold hover:bg-warm-gold/25 font-ui text-xs tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(212,168,83,0.15)] cursor-pointer touch-manipulation ios-touch-spring"
           title="Download Complete Novel"
         >
           {downloadedFormat ? (
@@ -98,7 +105,7 @@ export default function StoryDownloadButton({
           target="_blank"
           rel="noopener noreferrer"
           onClick={markPdfDownloaded}
-          className="flex items-center gap-2 px-4 py-2 rounded-md bg-warm-gold/15 border border-warm-gold/40 hover:border-warm-gold/80 text-warm-gold hover:bg-warm-gold/25 font-ui text-xs tracking-widest uppercase transition-all shadow-[0_0_15px_rgba(212,168,83,0.15)] cursor-pointer touch-manipulation"
+          className="flex items-center gap-2 px-4 py-2 rounded-md bg-warm-gold/15 border border-warm-gold/40 hover:border-warm-gold/80 text-warm-gold hover:bg-warm-gold/25 font-ui text-xs tracking-widest uppercase transition-all shadow-[0_0_15px_rgba(212,168,83,0.15)] cursor-pointer touch-manipulation ios-touch-spring"
         >
           {downloadedFormat ? (
             <>
@@ -126,7 +133,7 @@ export default function StoryDownloadButton({
         target="_blank"
         rel="noopener noreferrer"
         onClick={markPdfDownloaded}
-        className="group relative overflow-hidden flex items-center gap-2.5 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 rounded-l-md bg-gradient-to-r from-warm-gold/25 via-warm-gold/15 to-transparent border border-r-0 border-warm-gold/60 hover:border-warm-gold hover:bg-warm-gold/30 text-warm-gold font-ui text-xs md:text-sm tracking-widest uppercase transition-all duration-300 shadow-[0_0_25px_rgba(212,168,83,0.2)] cursor-pointer touch-manipulation"
+        className="group relative overflow-hidden flex items-center gap-2.5 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 rounded-l-md bg-gradient-to-r from-warm-gold/25 via-warm-gold/15 to-transparent border border-r-0 border-warm-gold/60 hover:border-warm-gold hover:bg-warm-gold/30 text-warm-gold font-ui text-xs md:text-sm tracking-widest uppercase transition-all duration-300 shadow-[0_0_25px_rgba(212,168,83,0.2)] cursor-pointer touch-manipulation ios-touch-spring"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-warm-gold/0 via-warm-gold/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
         
@@ -153,7 +160,7 @@ export default function StoryDownloadButton({
         <button
           type="button"
           onClick={() => setMenuOpen(!menuOpen)}
-          className="h-full px-3 py-2.5 sm:py-3 rounded-r-md border border-l border-warm-gold/60 hover:border-warm-gold bg-warm-gold/15 hover:bg-warm-gold/25 text-warm-gold transition-colors flex items-center justify-center cursor-pointer touch-manipulation"
+          className="h-full px-3 py-2.5 sm:py-3 rounded-r-md border border-l border-warm-gold/60 hover:border-warm-gold bg-warm-gold/15 hover:bg-warm-gold/25 text-warm-gold transition-colors flex items-center justify-center cursor-pointer touch-manipulation ios-touch-subtle"
           title="Choose download format"
           aria-label="Choose download format"
         >

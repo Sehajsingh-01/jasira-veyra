@@ -45,6 +45,10 @@ export const metadata: Metadata = {
 };
 
 import Navbar from '@/components/layout/Navbar';
+import { DownloadProvider } from '@/context/DownloadContext';
+import MagicDownloadBanner from '@/components/shared/MagicDownloadBanner';
+import MagicTapEffect from '@/components/shared/MagicTapEffect';
+import MagicalGoldenScroller from '@/components/shared/MagicalGoldenScroller';
 
 export default function RootLayout({
   children,
@@ -54,8 +58,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${libre.variable} ${caveat.variable} ${inter.variable}`}>
       <body className="min-h-screen antialiased bg-midnight text-cream">
-        <Navbar />
-        {children}
+        <DownloadProvider>
+          <Navbar />
+          <MagicDownloadBanner />
+          <MagicTapEffect />
+          <MagicalGoldenScroller />
+          {children}
+        </DownloadProvider>
       </body>
     </html>
   );

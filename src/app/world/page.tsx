@@ -61,7 +61,7 @@ export default function WorldPage() {
         {/* Featured Landscape */}
         <div className="mb-24 rounded-2xl overflow-hidden border border-warm-gold/20 shadow-2xl relative aspect-[16/9] w-full bg-midnight/60">
           <Image
-            src="/images/world/duskbloom-wood.webp"
+            src="/images/world/duskbloom-wood.jpg"
             alt="Duskbloom Wood at twilight"
             fill
             priority
@@ -84,7 +84,7 @@ export default function WorldPage() {
           <section className="space-y-4 rounded-xl p-6 bg-plum/10 border border-white/5">
             <div className="relative aspect-[16/10] w-full rounded-lg overflow-hidden border border-warm-gold/20 mb-4 bg-midnight/50">
               <Image
-                src="/images/world/athenaeum-exterior.webp"
+                src="/images/world/athenaeum-exterior.jpg"
                 alt="The Grand Athenaeum exterior"
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-500"

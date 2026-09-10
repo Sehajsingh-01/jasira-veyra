@@ -69,7 +69,7 @@ export default function HeroSection() {
 
             {/* Poetic Fairy Subtitle */}
             <p className="font-handwritten text-lg sm:text-2xl md:text-3xl text-cream/95 drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)] max-w-xl mx-auto mt-2 px-2">
-              "A quiet soul in a loud world."
+              &quot;A quiet soul in a loud world.&quot;
             </p>
           </div>
 

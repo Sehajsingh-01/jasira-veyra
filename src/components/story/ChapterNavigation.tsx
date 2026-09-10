@@ -20,7 +20,7 @@ export default function ChapterNavigation({ currentChapter, chapters }: ChapterN
         {prevChapter && prevChapter.isAvailable && (
           <Link 
             href={`/story/${prevChapter.id}`}
-            className="flex items-center gap-2 hover:text-warm-gold transition-colors"
+            className="inline-flex items-center gap-2 hover:text-warm-gold transition-colors touch-manipulation ios-touch-spring cursor-pointer"
           >
             <ChevronLeft size={16} />
             <span className="hidden sm:inline">Chapter {prevChapter.number}</span>
@@ -29,17 +29,20 @@ export default function ChapterNavigation({ currentChapter, chapters }: ChapterN
       </div>
 
       <div className="flex-1 flex justify-center">
-        <button className="flex items-center gap-2 hover:text-warm-gold transition-colors">
+        <Link 
+          href="/story"
+          className="flex items-center gap-2 hover:text-warm-gold transition-colors touch-manipulation ios-touch-spring cursor-pointer"
+        >
           <Menu size={16} />
           <span className="uppercase tracking-widest text-xs">Chapters</span>
-        </button>
+        </Link>
       </div>
 
       <div className="flex-1 flex justify-end">
         {nextChapter && nextChapter.isAvailable && (
           <Link 
             href={`/story/${nextChapter.id}`}
-            className="flex items-center gap-2 hover:text-warm-gold transition-colors"
+            className="inline-flex items-center gap-2 hover:text-warm-gold transition-colors touch-manipulation ios-touch-spring cursor-pointer"
           >
             <span className="hidden sm:inline">Chapter {nextChapter.number}</span>
             <ChevronRight size={16} />

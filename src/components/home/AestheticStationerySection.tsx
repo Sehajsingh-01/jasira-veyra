@@ -252,11 +252,12 @@ export default function AestheticStationerySection() {
                 {/* Big Download Button */}
                 <div className="pt-2">
                   <button
+                    type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       handlePdfDownload();
                     }}
-                    className="w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-lg bg-gradient-to-r from-warm-gold via-[#E5C378] to-warm-gold text-midnight font-ui text-xs md:text-sm tracking-widest uppercase font-bold hover:brightness-110 active:scale-[0.98] transition-all duration-300 shadow-[0_0_25px_rgba(212,168,83,0.35)]"
+                    className="w-full flex items-center justify-center gap-3 px-6 py-3.5 rounded-lg bg-gradient-to-r from-warm-gold via-[#E5C378] to-warm-gold text-midnight font-ui text-xs md:text-sm tracking-widest uppercase font-bold hover:brightness-110 active:scale-[0.97] transition-all duration-300 shadow-[0_0_25px_rgba(212,168,83,0.35)] cursor-pointer touch-manipulation ios-touch-spring"
                   >
                     <Download size={18} className="animate-bounce" />
                     <span>Download Full Book (.PDF)</span>

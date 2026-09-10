@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface FloatingParticlesProps {
@@ -12,21 +12,26 @@ export default function FloatingParticles({
   count = 30,
   className = '',
 }: FloatingParticlesProps) {
+  const [mounted, setMounted] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const particles = useMemo(() => {
     return Array.from({ length: count }).map((_, i) => ({
       id: i,
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      size: 2 + Math.random() * 2,
-      duration: 15 + Math.random() * 20,
-      delay: Math.random() * 5,
-      opacity: 0.1 + Math.random() * 0.2,
+      left: (i * 17) % 100,
+      top: (i * 23) % 100,
+      size: 2 + (i % 3),
+      duration: 15 + (i % 10) * 2,
+      delay: (i % 5),
+      opacity: 0.15 + (i % 3) * 0.05,
     }));
   }, [count]);
 
-  if (prefersReducedMotion) {
+  if (!mounted || prefersReducedMotion) {
     return null;
   }
 

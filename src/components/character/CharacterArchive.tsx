@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const TABS = ['PORTRAITS', 'EXPRESSIONS', 'OUTFITS', 'ANGLES', 'MAGIC', 'MOCHI', 'LIFE'];
+const TABS = ['PORTRAITS', 'EXPRESSIONS', 'OUTFITS', 'MOCHI', 'LIFE'];
 
 interface ArchiveItem {
   id: string;
@@ -21,14 +21,6 @@ interface ArchiveItem {
 
 const ARCHIVE_DATA: Record<string, ArchiveItem[]> = {
   PORTRAITS: [
-    {
-      id: 'p-hero',
-      title: 'Hero Portrait',
-      category: 'Portrait',
-      src: '/images/jasira/portraits/hero.webp',
-      description: '“A quiet soul in a loud world.” Jasira resting her chin on her hand as glowing petals drift around her.',
-      aspect: 'aspect-[3/4]'
-    },
     {
       id: 'p-main',
       title: 'Serene Gaze',
@@ -70,82 +62,6 @@ const ARCHIVE_DATA: Record<string, ArchiveItem[]> = {
       src: '/images/jasira/outfits/adventure.webp',
       description: 'Hooded mauve capelet with brass clasp, alchemy pouches, layered skirt, and tall explorer boots.',
       aspect: 'aspect-[2/3]'
-    }
-  ],
-  ANGLES: [
-    {
-      id: 'a-front',
-      title: 'Front View',
-      category: 'Turnaround',
-      src: '/images/jasira/angles/front-view.webp',
-      description: 'Straight-on facial reference showing soft symmetry, round spectacles, and twin pink bows.',
-      aspect: 'aspect-[3/4]'
-    },
-    {
-      id: 'a-34',
-      title: '3/4 Angle View',
-      category: 'Turnaround',
-      src: '/images/jasira/angles/three-quarter-view.webp',
-      description: 'Three-quarter turn highlighting cheek contour, glasses frame depth, and soft side bangs.',
-      aspect: 'aspect-[3/4]'
-    },
-    {
-      id: 'a-side',
-      title: 'Side Profile',
-      category: 'Turnaround',
-      src: '/images/jasira/angles/side-view.webp',
-      description: 'Delicate profile view displaying pointed elven ear with small pearl earring.',
-      aspect: 'aspect-[3/4]'
-    },
-    {
-      id: 'a-back',
-      title: 'Back View',
-      category: 'Turnaround',
-      src: '/images/jasira/angles/back-view.webp',
-      description: 'Half-up braided hairstyle tied with pink silk ribbons falling down dark flowing hair.',
-      aspect: 'aspect-[3/4]'
-    },
-    {
-      id: 'a-above',
-      title: 'From Above',
-      category: 'Turnaround',
-      src: '/images/jasira/angles/from-above.webp',
-      description: 'High angle perspective looking downward as she glances gently upward.',
-      aspect: 'aspect-[3/4]'
-    },
-    {
-      id: 'a-below',
-      title: 'From Below',
-      category: 'Turnaround',
-      src: '/images/jasira/angles/from-below.webp',
-      description: 'Low angle perspective showing the chin and jawline bathed in soft ambient light.',
-      aspect: 'aspect-[3/4]'
-    }
-  ],
-  MAGIC: [
-    {
-      id: 'm-bloom',
-      title: 'Petal Bloom',
-      category: 'Petal Magic',
-      src: '/images/jasira/magic/petal-verse.jpg',
-      description: 'Cupped hands gathering soft lilac light into a blossoming lotus of memories.',
-      aspect: 'aspect-video'
-    },
-    {
-      id: 'm-crest',
-      title: 'Duskbloom Sacred Crest',
-      category: 'Petal Magic',
-      src: '/images/jasira/magic/mandala-crest.webp',
-      description: 'Radiant botanical mandala of light petals that awakens forgotten stories.',
-      aspect: 'aspect-[3/4]'
-    },
-    {
-      id: 'm-words',
-      title: 'Restoring Words',
-      category: 'Petal Magic',
-      src: '/images/jasira/magic/restoring-words.webp',
-      description: 'Gently guiding starlight and lilac petals to restore vanished endings onto blank pages.',
-      aspect: 'aspect-[3/4]'
     }
   ],
   MOCHI: [

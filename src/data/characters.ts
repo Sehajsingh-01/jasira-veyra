@@ -16,7 +16,7 @@ export const characters: Character[] = [
     id: "jasira",
     name: "Jasira Veyra",
     nickname: "Jas",
-    age: "Unknown",
+    age: "20",
     height: "5'6\"",
     race: "Human/Mage",
     theme: "Duskbloom",

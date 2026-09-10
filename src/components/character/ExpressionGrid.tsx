@@ -126,13 +126,13 @@ export default function ExpressionGrid({ expressions }: ExpressionGridProps) {
                 </p>
               )}
 
-              <div className="mt-6 flex items-center gap-2">
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-1.5 max-w-xs px-2">
                 {expressions.map((e, idx) => (
                   <button
                     key={e.id}
                     onClick={() => setSelectedExp(e)}
                     className={`h-1.5 rounded-full transition-all ${
-                      idx === selectedIndex ? 'w-6 bg-warm-gold' : 'w-1.5 bg-lavender/30 hover:bg-lavender/60'
+                      idx === selectedIndex ? 'w-5 bg-warm-gold' : 'w-1.5 bg-lavender/30 hover:bg-lavender/60'
                     }`}
                     aria-label={`Jump to ${e.name}`}
                   />

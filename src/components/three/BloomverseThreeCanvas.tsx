@@ -23,24 +23,32 @@ export default function BloomverseThreeCanvas({
     if (!mount) return;
 
     // 1. Scene & Camera
+    const width = mount.clientWidth || window.innerWidth || 800;
+    const height = mount.clientHeight || window.innerHeight || 600;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       50,
-      mount.clientWidth / mount.clientHeight,
+      height > 0 ? width / height : 1,
       0.1,
       1000
     );
     camera.position.z = 25;
 
-    // 2. WebGL Renderer
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance',
-    });
-    renderer.setSize(mount.clientWidth, mount.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    mount.appendChild(renderer.domElement);
+    // 2. WebGL Renderer with safe fallback
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        powerPreference: 'high-performance',
+      });
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.domElement.style.pointerEvents = 'none';
+      mount.appendChild(renderer.domElement);
+    } catch {
+      return;
+    }
 
     // 3. Stardust Particle System (Subtle & Elegant)
     const particleGeo = new THREE.BufferGeometry();
@@ -253,9 +261,10 @@ export default function BloomverseThreeCanvas({
 
     // 8. Responsive Resize
     const handleResize = () => {
-      if (!mount) return;
+      if (!mount || !renderer) return;
       const width = mount.clientWidth;
       const height = mount.clientHeight;
+      if (width <= 0 || height <= 0) return;
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);

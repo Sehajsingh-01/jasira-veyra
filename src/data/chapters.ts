@@ -502,7 +502,8 @@ export const chapters: Chapter[] = [
           "Hers finally had one.",
           "Because some hearts were never meant to whisper.*",
           "*Some hearts were made to bloom out loud — and now, finally, so was everyone else's.",
-          "— THE END —"
+          "— THE END —",
+          "(Yes, this ending is doing the meta thing on purpose, same as before. It's for the real Jasira — every page of this, start to finish, was written exactly the way it reads.)"
         ]
       }
     ]

@@ -2,14 +2,13 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download, Check, FileText, Printer, Sparkles, ChevronDown } from 'lucide-react';
+import { Download, Check, FileText, Printer, ChevronDown } from 'lucide-react';
 import {
   generateMarkdownStory,
   generateTextManuscript,
   generatePrintableHtmlStory,
   triggerDownload,
   downloadFullBookPdf,
-  getStoryMetadata,
 } from '@/lib/storyDownloader';
 
 interface StoryDownloadButtonProps {
@@ -25,16 +24,12 @@ export default function StoryDownloadButton({
   const [downloadedFormat, setDownloadedFormat] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const meta = getStoryMetadata();
-
-  const handleDownload = (format: 'pdf' | 'html' | 'markdown' | 'text') => {
+  const handleCustomDownload = (format: 'html' | 'markdown' | 'text') => {
     setDownloading(true);
     setMenuOpen(false);
 
     try {
-      if (format === 'pdf') {
-        downloadFullBookPdf();
-      } else if (format === 'html') {
+      if (format === 'html') {
         const html = generatePrintableHtmlStory();
         const blob = new Blob([html], { type: 'text/html' });
         const blobUrl = URL.createObjectURL(blob);
@@ -59,19 +54,22 @@ export default function StoryDownloadButton({
     }
   };
 
-  // 1-tap primary action: Download Full Book PDF (Jas_of_Duskbloom_FULL.pdf)
-  const handlePrimaryClick = () => {
-    handleDownload('pdf');
+  const markPdfDownloaded = () => {
+    setDownloadedFormat('pdf');
+    setTimeout(() => setDownloadedFormat(null), 3500);
   };
 
+  // Reader Variant
   if (variant === 'reader') {
     return (
       <div className={`relative inline-block ${className}`}>
-        <motion.button
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          onClick={handlePrimaryClick}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-warm-gold/15 border border-warm-gold/40 text-warm-gold hover:bg-warm-gold/25 font-ui text-xs tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(212,168,83,0.15)]"
+        <a
+          href="/Jas_of_Duskbloom_FULL.pdf"
+          download="Jas_of_Duskbloom_FULL.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={markPdfDownloaded}
+          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-warm-gold/15 border border-warm-gold/40 text-warm-gold hover:bg-warm-gold/25 font-ui text-xs tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(212,168,83,0.15)] cursor-pointer touch-manipulation"
           title="Download Complete Novel"
         >
           {downloadedFormat ? (
@@ -81,23 +79,26 @@ export default function StoryDownloadButton({
             </>
           ) : (
             <>
-              <Download size={14} className={downloading ? 'animate-bounce' : ''} />
+              <Download size={14} />
               <span>Download Full PDF Book</span>
             </>
           )}
-        </motion.button>
+        </a>
       </div>
     );
   }
 
+  // Compact Variant
   if (variant === 'compact') {
     return (
       <div className={`relative inline-block ${className}`}>
-        <motion.button
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          onClick={handlePrimaryClick}
-          className="flex items-center gap-2 px-4 py-2 rounded-md bg-warm-gold/15 border border-warm-gold/40 hover:border-warm-gold/80 text-warm-gold hover:bg-warm-gold/25 font-ui text-xs tracking-widest uppercase transition-all shadow-[0_0_15px_rgba(212,168,83,0.15)]"
+        <a
+          href="/Jas_of_Duskbloom_FULL.pdf"
+          download="Jas_of_Duskbloom_FULL.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={markPdfDownloaded}
+          className="flex items-center gap-2 px-4 py-2 rounded-md bg-warm-gold/15 border border-warm-gold/40 hover:border-warm-gold/80 text-warm-gold hover:bg-warm-gold/25 font-ui text-xs tracking-widest uppercase transition-all shadow-[0_0_15px_rgba(212,168,83,0.15)] cursor-pointer touch-manipulation"
         >
           {downloadedFormat ? (
             <>
@@ -106,35 +107,37 @@ export default function StoryDownloadButton({
             </>
           ) : (
             <>
-              <Download size={14} className={downloading ? 'animate-bounce' : ''} />
+              <Download size={14} />
               <span>Download Full Book (PDF)</span>
             </>
           )}
-        </motion.button>
+        </a>
       </div>
     );
   }
 
+  // Hero Variant (Default on /story)
   return (
-    <div className={`relative inline-flex items-center ${className}`}>
-      {/* Primary 1-tap button */}
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={handlePrimaryClick}
-        disabled={downloading}
-        className="group relative overflow-hidden flex items-center gap-3 px-6 py-3 rounded-l-md bg-gradient-to-r from-warm-gold/25 via-warm-gold/15 to-transparent border border-r-0 border-warm-gold/60 hover:border-warm-gold hover:bg-warm-gold/30 text-warm-gold font-ui text-xs md:text-sm tracking-widest uppercase transition-all duration-300 shadow-[0_0_25px_rgba(212,168,83,0.2)]"
+    <div className={`relative inline-flex items-stretch ${className}`}>
+      {/* Primary 1-tap download link - 100% genuine anchor tag for foolproof download on all devices */}
+      <a
+        href="/Jas_of_Duskbloom_FULL.pdf"
+        download="Jas_of_Duskbloom_FULL.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={markPdfDownloaded}
+        className="group relative overflow-hidden flex items-center gap-2.5 sm:gap-3 px-4 sm:px-6 py-2.5 sm:py-3 rounded-l-md bg-gradient-to-r from-warm-gold/25 via-warm-gold/15 to-transparent border border-r-0 border-warm-gold/60 hover:border-warm-gold hover:bg-warm-gold/30 text-warm-gold font-ui text-xs md:text-sm tracking-widest uppercase transition-all duration-300 shadow-[0_0_25px_rgba(212,168,83,0.2)] cursor-pointer touch-manipulation"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-warm-gold/0 via-warm-gold/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
         
         {downloadedFormat ? (
           <>
-            <Check size={18} className="text-emerald-400" />
+            <Check size={18} className="text-emerald-400 shrink-0" />
             <span className="font-semibold text-cream">PDF Book Downloaded!</span>
           </>
         ) : (
           <>
-            <Download size={18} className={`text-warm-gold ${downloading ? 'animate-bounce' : 'group-hover:translate-y-0.5 transition-transform'}`} />
+            <Download size={18} className="text-warm-gold shrink-0 group-hover:translate-y-0.5 transition-transform" />
             <span className="font-semibold text-cream group-hover:text-warm-gold transition-colors">
               1-Tap Download Full Book
             </span>
@@ -143,13 +146,14 @@ export default function StoryDownloadButton({
             </span>
           </>
         )}
-      </motion.button>
+      </a>
 
       {/* Format selector dropdown button */}
-      <div className="relative">
+      <div className="relative flex">
         <button
+          type="button"
           onClick={() => setMenuOpen(!menuOpen)}
-          className="h-full px-3 py-3 rounded-r-md border border-l border-warm-gold/60 hover:border-warm-gold bg-warm-gold/15 hover:bg-warm-gold/25 text-warm-gold transition-colors flex items-center justify-center"
+          className="h-full px-3 py-2.5 sm:py-3 rounded-r-md border border-l border-warm-gold/60 hover:border-warm-gold bg-warm-gold/15 hover:bg-warm-gold/25 text-warm-gold transition-colors flex items-center justify-center cursor-pointer touch-manipulation"
           title="Choose download format"
           aria-label="Choose download format"
         >
@@ -170,22 +174,31 @@ export default function StoryDownloadButton({
                 <p className="font-ui text-xs text-lavender/60">Complete 5-Chapter Book</p>
               </div>
 
-              <button
-                onClick={() => handleDownload('pdf')}
-                className="w-full flex items-center gap-3 px-3 py-2 rounded hover:bg-warm-gold/15 text-cream hover:text-warm-gold text-xs transition-colors group bg-warm-gold/5 mb-1"
+              {/* PDF option is also a direct link */}
+              <a
+                href="/Jas_of_Duskbloom_FULL.pdf"
+                download="Jas_of_Duskbloom_FULL.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  markPdfDownloaded();
+                  setMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-3 py-2 rounded hover:bg-warm-gold/15 text-cream hover:text-warm-gold text-xs transition-colors group bg-warm-gold/5 mb-1 cursor-pointer"
               >
-                <Download size={16} className="text-warm-gold" />
+                <Download size={16} className="text-warm-gold shrink-0" />
                 <div className="flex flex-col text-left">
                   <span className="font-medium text-warm-gold">Jas_of_Duskbloom_FULL.pdf</span>
                   <span className="text-[10px] text-lavender/60">Complete Original Book PDF (240 KB)</span>
                 </div>
-              </button>
+              </a>
 
               <button
-                onClick={() => handleDownload('html')}
-                className="w-full flex items-center gap-3 px-3 py-2 rounded hover:bg-warm-gold/15 text-cream hover:text-warm-gold text-xs transition-colors group"
+                type="button"
+                onClick={() => handleCustomDownload('html')}
+                className="w-full flex items-center gap-3 px-3 py-2 rounded hover:bg-warm-gold/15 text-cream hover:text-warm-gold text-xs transition-colors group cursor-pointer"
               >
-                <Printer size={16} className="text-warm-gold/70 group-hover:text-warm-gold" />
+                <Printer size={16} className="text-warm-gold/70 group-hover:text-warm-gold shrink-0" />
                 <div className="flex flex-col text-left">
                   <span className="font-medium">Printable Illuminated eBook</span>
                   <span className="text-[10px] text-lavender/50">Formatted HTML with custom typography</span>
@@ -193,10 +206,11 @@ export default function StoryDownloadButton({
               </button>
 
               <button
-                onClick={() => handleDownload('markdown')}
-                className="w-full flex items-center gap-3 px-3 py-2 rounded hover:bg-warm-gold/15 text-cream hover:text-warm-gold text-xs transition-colors group"
+                type="button"
+                onClick={() => handleCustomDownload('markdown')}
+                className="w-full flex items-center gap-3 px-3 py-2 rounded hover:bg-warm-gold/15 text-cream hover:text-warm-gold text-xs transition-colors group cursor-pointer"
               >
-                <FileText size={16} className="text-warm-gold/70 group-hover:text-warm-gold" />
+                <FileText size={16} className="text-warm-gold/70 group-hover:text-warm-gold shrink-0" />
                 <div className="flex flex-col text-left">
                   <span className="font-medium">Markdown Document (.md)</span>
                   <span className="text-[10px] text-lavender/50">Full metadata, scenes & dialogues</span>
@@ -204,10 +218,11 @@ export default function StoryDownloadButton({
               </button>
 
               <button
-                onClick={() => handleDownload('text')}
-                className="w-full flex items-center gap-3 px-3 py-2 rounded hover:bg-warm-gold/15 text-cream hover:text-warm-gold text-xs transition-colors group"
+                type="button"
+                onClick={() => handleCustomDownload('text')}
+                className="w-full flex items-center gap-3 px-3 py-2 rounded hover:bg-warm-gold/15 text-cream hover:text-warm-gold text-xs transition-colors group cursor-pointer"
               >
-                <FileText size={16} className="text-warm-gold/70 group-hover:text-warm-gold" />
+                <FileText size={16} className="text-warm-gold/70 group-hover:text-warm-gold shrink-0" />
                 <div className="flex flex-col text-left">
                   <span className="font-medium">Plain Text Manuscript (.txt)</span>
                   <span className="text-[10px] text-lavender/50">Clean raw text for any e-reader</span>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, BookOpen } from 'lucide-react';
 
@@ -79,14 +79,17 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
     return MAGIC_QUOTE_PAIRS[nextIdx];
   }, []);
 
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
+
   useEffect(() => {
-    // Prevent accidental touch dismissal for the first 1.2s on mobile
-    const tProtect = setTimeout(() => setCanTapToDismiss(true), 1200);
+    // Allow touch dismissal after 800ms
+    const tProtect = setTimeout(() => setCanTapToDismiss(true), 800);
 
     // Ultra-smooth stage progression
-    const t1 = setTimeout(() => setStage(2), 1400); // Reveal Quote 2
-    const t2 = setTimeout(() => setIsDismissing(true), 4600); // Start buttery dissolve
-    const t3 = setTimeout(() => onComplete(), 5300); // Complete
+    const t1 = setTimeout(() => setStage(2), 1300); // Reveal Quote 2
+    const t2 = setTimeout(() => setIsDismissing(true), 3800); // Start buttery dissolve
+    const t3 = setTimeout(() => onCompleteRef.current(), 4400); // Complete
 
     return () => {
       clearTimeout(tProtect);
@@ -94,11 +97,11 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
       clearTimeout(t2);
       clearTimeout(t3);
     };
-  }, [onComplete]);
+  }, []);
 
   const handleSkip = () => {
     setIsDismissing(true);
-    setTimeout(() => onComplete(), 300);
+    onCompleteRef.current();
   };
 
   const handleBackdropClick = () => {
@@ -117,7 +120,13 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         onClick={handleBackdropClick}
-        className={`fixed inset-0 z-[100] w-screen h-screen min-h-[100dvh] flex flex-col items-center justify-center bg-[#07050E] overflow-hidden select-none px-4 sm:px-6 cursor-default ${
+        onTouchEnd={(e) => {
+          if (canTapToDismiss) {
+            e.preventDefault();
+            handleBackdropClick();
+          }
+        }}
+        className={`fixed inset-0 z-[100] w-screen h-[100dvh] flex flex-col items-center justify-center bg-[#07050E] overflow-hidden select-none px-4 sm:px-6 cursor-default touch-manipulation ${
           isDismissing ? 'pointer-events-none' : ''
         }`}
       >
@@ -130,7 +139,12 @@ export default function CinematicIntro({ onComplete }: CinematicIntroProps) {
             e.stopPropagation();
             handleSkip();
           }}
-          className="absolute top-4 right-4 sm:top-6 sm:right-6 z-30 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-warm-gold/20 border border-white/15 hover:border-warm-gold/50 text-cream/80 hover:text-warm-gold font-ui text-[10px] sm:text-xs tracking-widest uppercase backdrop-blur-md transition-all cursor-pointer shadow-lg"
+          onTouchEnd={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            handleSkip();
+          }}
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 z-[110] px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-warm-gold/20 border border-white/15 hover:border-warm-gold/50 text-cream/80 hover:text-warm-gold font-ui text-[10px] sm:text-xs tracking-widest uppercase backdrop-blur-md transition-all cursor-pointer shadow-lg touch-manipulation"
         >
           <span>Skip ✦</span>
         </motion.button>

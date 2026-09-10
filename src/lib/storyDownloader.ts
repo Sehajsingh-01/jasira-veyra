@@ -431,22 +431,40 @@ export function generatePrintableHtmlStory(): string {
 }
 
 export function triggerDownload(content: string, filename: string, mimeType: string) {
+  if (typeof window === 'undefined') return;
   const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
   a.download = filename;
+  a.style.display = 'none';
   document.body.appendChild(a);
   a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  setTimeout(() => {
+    try {
+      if (document.body.contains(a)) {
+        document.body.removeChild(a);
+      }
+      URL.revokeObjectURL(url);
+    } catch {}
+  }, 1500);
 }
 
 export function downloadFullBookPdf() {
+  if (typeof window === 'undefined') return;
   const a = document.createElement('a');
   a.href = '/Jas_of_Duskbloom_FULL.pdf';
   a.download = 'Jas_of_Duskbloom_FULL.pdf';
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.style.display = 'none';
   document.body.appendChild(a);
   a.click();
-  document.body.removeChild(a);
+  setTimeout(() => {
+    try {
+      if (document.body.contains(a)) {
+        document.body.removeChild(a);
+      }
+    } catch {}
+  }, 2000);
 }

@@ -8,7 +8,6 @@ export const NAV_LINKS = [
   { label: 'Story', href: '/story', description: 'The journey begins' },
   { label: 'Bloomverse', href: '/bloomverse', description: 'The interconnected universe' },
   { label: 'Magic', href: '/magic', description: 'Where flowers remember' },
-  { label: 'Gallery', href: '/gallery', description: 'Visions and memories' },
   { label: 'World', href: '/world', description: 'The lore and lands' },
 ];
 
@@ -23,5 +22,4 @@ export const LOCAL_STORAGE_KEYS = {
   introSeen: 'jasira_intro_seen',
   readingProgress: 'jasira_reading_progress',
   worldState: 'jasira_world_state',
-  galleryFilter: 'jasira_gallery_filter',
 };

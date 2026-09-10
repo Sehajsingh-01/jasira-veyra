@@ -1,6 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import BloomverseThreeCanvas from '@/components/three/BloomverseThreeCanvas';
@@ -29,6 +28,7 @@ export default function HeroSection() {
             unoptimized
             className="object-cover object-[center_10%] sm:object-[center_20%] transition-transform duration-1000 group-hover:scale-[1.02]"
           />
+
 
           {/* Soft Bottom Shadow for text contrast without blacking out the top */}
           <div className="absolute inset-0 bg-gradient-to-t from-midnight/95 via-midnight/35 to-transparent pointer-events-none" />
@@ -85,21 +85,23 @@ export default function HeroSection() {
               </span>
             </div>
 
-            {/* Right Action Buttons: Read & Journal */}
+            {/* Right Action Buttons: Read & Journal (Direct styled Links for foolproof Android tap) */}
             <div className="flex items-center gap-2">
-              <Link href="/story">
-                <button className="flex items-center gap-1.5 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-lg bg-warm-gold text-midnight hover:bg-cream font-ui text-[10px] sm:text-xs tracking-wider uppercase font-semibold transition-all shadow-[0_0_15px_rgba(212,168,83,0.3)] cursor-pointer">
-                  <span>Read Story</span>
-                  <ArrowRight size={12} />
-                </button>
+              <Link
+                href="/story"
+                className="flex items-center gap-1.5 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-lg bg-warm-gold text-midnight hover:bg-cream font-ui text-[10px] sm:text-xs tracking-wider uppercase font-semibold transition-all shadow-[0_0_15px_rgba(212,168,83,0.3)] cursor-pointer touch-manipulation"
+              >
+                <span>Read Story</span>
+                <ArrowRight size={12} />
               </Link>
 
-              <Link href="/bloomverse">
-                <button className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-lavender/30 text-lavender hover:text-cream hover:border-warm-gold font-ui text-[10px] sm:text-xs tracking-wider uppercase transition-all cursor-pointer">
-                  <Compass size={12} />
-                  <span className="hidden xs:inline sm:inline">3D Journal</span>
-                  <span className="xs:hidden sm:hidden">Journal</span>
-                </button>
+              <Link
+                href="/bloomverse"
+                className="flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-lavender/30 text-lavender hover:text-cream hover:border-warm-gold font-ui text-[10px] sm:text-xs tracking-wider uppercase transition-all cursor-pointer touch-manipulation"
+              >
+                <Compass size={12} />
+                <span className="sm:hidden">Journal</span>
+                <span className="hidden sm:inline">3D Journal</span>
               </Link>
             </div>
           </div>

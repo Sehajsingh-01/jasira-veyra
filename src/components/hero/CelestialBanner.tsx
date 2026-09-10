@@ -1,104 +1,116 @@
 'use client';
 
+import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-// Curated subtle sparkles across the celestial banner (controlled quantity: 9 sparkles on desktop, 4 on mobile)
-const DESKTOP_SPARKLES = [
-  { id: 1, top: '20%', left: '16%', size: 'text-[11px]', delay: 0, duration: 3.8, char: '✦' },
-  { id: 2, top: '42%', left: '27%', size: 'text-[9px]', delay: 1.4, duration: 4.2, char: '✧' },
-  { id: 3, top: '14%', left: '42%', size: 'text-[12px]', delay: 0.6, duration: 3.5, char: '✦' }, // near crescent moon left
-  { id: 4, top: '28%', left: '50%', size: 'text-[9px]', delay: 2.2, duration: 4.0, char: '⋆' },  // beneath moon center
-  { id: 5, top: '15%', left: '59%', size: 'text-[11px]', delay: 1.8, duration: 3.6, char: '✦' }, // near crescent moon right
-  { id: 6, top: '74%', left: '36%', size: 'text-[8px]', delay: 2.7, duration: 4.5, char: '✧' },
-  { id: 7, top: '72%', left: '64%', size: 'text-[8px]', delay: 0.9, duration: 3.9, char: '✧' },
-  { id: 8, top: '26%', left: '76%', size: 'text-[10px]', delay: 1.2, duration: 4.1, char: '✦' }, // near calligraphy
-  { id: 9, top: '48%', left: '89%', size: 'text-[9px]', delay: 2.9, duration: 3.7, char: '⋆' },  // far right astrolabe
+interface SparkleData {
+  id: string | number;
+  top: string;
+  left?: string;
+  right?: string;
+  size: number;
+  delay: number;
+  duration: number;
+  mobileVisible?: boolean;
+}
+
+// Curated radiant fairy stars strategically positioned over magical elements
+const CELESTIAL_SPARKLES: SparkleData[] = [
+  // 1. Crescent Moon & Arch Center
+  { id: 'moon-center', top: '15%', left: '49%', size: 18, delay: 0.1, duration: 3.2, mobileVisible: true },
+  { id: 'moon-left', top: '12%', left: '42%', size: 15, delay: 1.4, duration: 3.8, mobileVisible: true },
+  { id: 'moon-right', top: '14%', left: '57%', size: 16, delay: 0.8, duration: 3.5, mobileVisible: true },
+  { id: 'moon-below', top: '38%', left: '50%', size: 13, delay: 2.2, duration: 4.1, mobileVisible: false },
+  
+  // 2. Illuminated Castle Spires & Mountain Crest (Left side)
+  { id: 'castle-spire', top: '22%', left: '12%', size: 17, delay: 0.4, duration: 3.6, mobileVisible: true },
+  { id: 'castle-bridge', top: '48%', left: '20%', size: 13, delay: 1.8, duration: 4.2, mobileVisible: false },
+  { id: 'mountain-peak', top: '32%', left: '28%', size: 14, delay: 2.6, duration: 3.9, mobileVisible: false },
+  
+  // 3. Golden Calligraphy & Wisteria Flowers (Right side)
+  { id: 'calligraphy-wisp', top: '26%', left: '81%', size: 16, delay: 0.9, duration: 3.7, mobileVisible: true },
+  { id: 'right-lantern', top: '42%', left: '92%', size: 15, delay: 1.6, duration: 3.4, mobileVisible: true },
+  { id: 'wisteria-cluster', top: '65%', left: '76%', size: 12, delay: 2.1, duration: 4.0, mobileVisible: false },
+  
+  // 4. Lake Reflection & Water Mists (Lower middle)
+  { id: 'lake-glow-1', top: '72%', left: '40%', size: 12, delay: 1.1, duration: 4.3, mobileVisible: false },
+  { id: 'lake-glow-2', top: '70%', left: '62%', size: 13, delay: 2.8, duration: 3.8, mobileVisible: false },
 ];
 
-const MOBILE_SPARKLES = [
-  { id: 'm1', top: '18%', left: '20%', size: 'text-[10px]', delay: 0, duration: 3.2, char: '✦' },
-  { id: 'm2', top: '16%', right: '20%', size: 'text-[10px]', delay: 1.2, duration: 3.5, char: '✦' },
-  { id: 'm3', bottom: '22%', left: '14%', size: 'text-[8px]', delay: 2.0, duration: 3.8, char: '✧' },
-  { id: 'm4', bottom: '20%', right: '14%', size: 'text-[8px]', delay: 0.7, duration: 4.0, char: '✧' },
-];
+function RadiantFairyStar({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="filter drop-shadow-[0_0_6px_#FFF4C2] drop-shadow-[0_0_12px_rgba(212,168,83,0.9)]"
+    >
+      <defs>
+        <radialGradient id={`starRad-${size}`} cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#FFFFFF" />
+          <stop offset="35%" stopColor="#FFF2B2" />
+          <stop offset="75%" stopColor="#E5B842" />
+          <stop offset="100%" stopColor="#B38622" />
+        </radialGradient>
+      </defs>
+      {/* 4-point primary diamond ray */}
+      <path
+        d="M12 0 C12 6.8 15.2 12 22 12 C15.2 12 12 17.2 12 24 C12 17.2 8.8 12 2 12 C8.8 12 12 6.8 12 0 Z"
+        fill={`url(#starRad-${size})`}
+      />
+      {/* Secondary diagonal sparkle accents */}
+      <path
+        d="M12 5 C12 9 14.5 12 18.5 12 C14.5 12 12 15 12 19 C12 15 9.5 12 5.5 12 C9.5 12 12 9 12 5 Z"
+        fill="#FFFDF0"
+        opacity="0.85"
+      />
+      {/* Brilliant core jewel */}
+      <circle cx="12" cy="12" r="2.2" fill="#FFFFFF" />
+    </svg>
+  );
+}
 
 export default function CelestialBanner() {
   return (
     <div className="relative z-20 w-full max-w-6xl mx-auto px-3 sm:px-6 mb-4 sm:mb-6 select-none">
-      {/* =========================================================================
-          DESKTOP & TABLET: HIGH-RES PANORAMIC CELESTIAL LANDSCAPE ARTWORK (1024x170)
-         ========================================================================= */}
-      <div className="hidden sm:block relative w-full aspect-[1024/170] min-h-[125px] md:min-h-[165px] rounded-2xl overflow-hidden border border-warm-gold/25 shadow-[0_20px_60px_rgba(0,0,0,0.85)] bg-midnight group">
+      {/* High-Resolution Panoramic Celestial Banner Artwork (Displayed on BOTH Desktop & Phone) */}
+      <div className="relative w-full aspect-[1024/220] sm:aspect-[1024/170] min-h-[75px] xs:min-h-[95px] sm:min-h-[135px] md:min-h-[165px] rounded-xl sm:rounded-2xl overflow-hidden border border-warm-gold/30 shadow-[0_20px_60px_rgba(0,0,0,0.85)] bg-midnight group">
         <Image
           src="/images/backgrounds/celestial-banner.png"
           alt="In a realm where loud magic roared like thunder, she listened to the soil - Stories Live Longer Than Silence"
           fill
           priority
           quality={100}
+          sizes="100vw"
           unoptimized
           className="object-cover object-center transition-transform duration-1000 group-hover:scale-[1.01]"
         />
 
-        {/* Soft Vignette & Atmospheric Radial Glows */}
+        {/* Soft Vignette along edges */}
         <div className="absolute inset-0 bg-gradient-to-r from-midnight/40 via-transparent to-midnight/40 pointer-events-none" />
 
         {/* Animated Moon Halo Glow in Center */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-20 bg-warm-gold/15 rounded-full blur-2xl pointer-events-none animate-pulse" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-36 sm:w-56 h-14 sm:h-24 bg-warm-gold/20 rounded-full blur-xl sm:blur-2xl pointer-events-none animate-pulse" />
 
-        {/* Castle Spires Glow on Left */}
-        <div className="absolute top-2 left-16 w-32 h-20 bg-warm-gold/10 rounded-full blur-xl pointer-events-none" />
+        {/* Castle Spires Ambient Glow on Left */}
+        <div className="absolute top-2 left-6 sm:left-16 w-24 sm:w-36 h-14 sm:h-20 bg-warm-gold/15 rounded-full blur-lg sm:blur-xl pointer-events-none" />
 
-        {/* Subtle, Controlled Floating Animated Sparkles (Drifting & Twinkling) */}
+        {/* =========================================================================
+            RADIANT ANIMATED FAIRY SPARKLES (TWINKLING & FLOATING ACROSS THE ARTWORK)
+           ========================================================================= */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {DESKTOP_SPARKLES.map((sp) => (
-            <motion.span
+          {CELESTIAL_SPARKLES.map((sp) => (
+            <motion.div
               key={sp.id}
               animate={{
-                opacity: [0.2, 0.95, 0.3, 0.9, 0.2],
-                scale: [0.75, 1.25, 0.85, 1.15, 0.75],
+                opacity: [0.3, 1, 0.45, 0.95, 0.3],
+                scale: [0.65, 1.35, 0.75, 1.25, 0.65],
                 y: [0, -7, 1, -4, 0],
-                x: [0, 3, -2, 4, 0],
-              }}
-              transition={{
-                duration: sp.duration,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: sp.delay,
-              }}
-              style={{ top: sp.top, left: sp.left }}
-              className={`absolute text-warm-gold ${sp.size} drop-shadow-[0_0_8px_rgba(212,168,83,0.9)] select-none`}
-            >
-              {sp.char}
-            </motion.span>
-          ))}
-        </div>
-      </div>
-
-      {/* =========================================================================
-          MOBILE OPTIMIZED VIEW: HIGH-CONTRAST READABLE CELESTIAL STAGE WITH 2 ANIMATED QUOTES
-         ========================================================================= */}
-      <div className="sm:hidden relative w-full rounded-2xl overflow-hidden border border-warm-gold/25 bg-gradient-to-b from-[#151128] via-midnight to-[#0f0c1e] p-4 shadow-xl text-center">
-        {/* Ambient Castle Silhouette Backdrop */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <Image
-            src="/images/backgrounds/banner-castle.jpg"
-            alt="Castle Backdrop"
-            fill
-            className="object-cover object-left"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/80 to-transparent" />
-        </div>
-
-        {/* Mobile Animated Sparkles (Controlled quantity, 4 sparkles) */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {MOBILE_SPARKLES.map((sp) => (
-            <motion.span
-              key={sp.id}
-              animate={{
-                opacity: [0.2, 0.9, 0.2],
-                scale: [0.7, 1.2, 0.7],
-                y: [0, -5, 0],
+                x: [0, 3, -2, 3, 0],
+                rotate: [0, 20, -10, 15, 0],
               }}
               transition={{
                 duration: sp.duration,
@@ -108,60 +120,17 @@ export default function CelestialBanner() {
               }}
               style={{
                 top: sp.top,
-                bottom: sp.bottom,
                 left: sp.left,
                 right: sp.right,
               }}
-              className={`absolute text-warm-gold ${sp.size} drop-shadow-[0_0_6px_rgba(212,168,83,0.85)]`}
+              className={`absolute select-none pointer-events-none will-change-transform ${
+                sp.mobileVisible ? 'block' : 'hidden sm:block'
+              }`}
             >
-              {sp.char}
-            </motion.span>
+              <RadiantFairyStar size={sp.size} />
+            </motion.div>
           ))}
         </div>
-
-        {/* Crescent Moon & Blossom Arch */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="relative z-10 flex items-center justify-center gap-2 mb-2"
-        >
-          <span className="text-sm">🌸</span>
-          <span className="text-base drop-shadow-[0_0_8px_rgba(212,168,83,0.8)]">🌙</span>
-          <span className="text-sm">🌸</span>
-        </motion.div>
-
-        {/* Quote 1: Animated Soil Verse */}
-        <motion.p
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative z-10 font-ui text-[10.5px] text-cream/95 uppercase tracking-[0.2em] font-medium leading-relaxed px-1"
-        >
-          ✦ In a realm where loud magic roared like thunder, she listened to the soil. ✦
-        </motion.p>
-
-        {/* Decorative Divider */}
-        <motion.div
-          initial={{ opacity: 0, scaleX: 0.6 }}
-          animate={{ opacity: 1, scaleX: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="relative z-10 flex items-center justify-center gap-2 my-2 text-warm-gold/60 text-[10px]"
-        >
-          <span className="w-8 h-px bg-warm-gold/30" />
-          <span>✧</span>
-          <span className="w-8 h-px bg-warm-gold/30" />
-        </motion.div>
-
-        {/* Quote 2: Animated Calligraphy Verse */}
-        <motion.p
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="relative z-10 font-handwritten text-xl text-lavender/90 italic"
-        >
-          &quot;Stories Live Longer Than Silence&quot;
-        </motion.p>
       </div>
     </div>
   );

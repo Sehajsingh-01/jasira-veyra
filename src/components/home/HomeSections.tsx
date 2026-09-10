@@ -175,15 +175,17 @@ export default function HomeSections() {
               </div>
 
               <div className="flex items-center gap-4 pt-4">
-                <Link href="/story/chapter-1">
-                  <button className="px-6 py-2.5 rounded-md bg-warm-gold text-midnight hover:bg-cream font-ui text-xs tracking-widest uppercase font-semibold transition-all shadow-lg">
-                    Read Chapter 1
-                  </button>
+                <Link
+                  href="/story/chapter-1"
+                  className="px-6 py-2.5 rounded-md bg-warm-gold text-midnight hover:bg-cream font-ui text-xs tracking-widest uppercase font-semibold transition-all shadow-lg cursor-pointer touch-manipulation"
+                >
+                  Read Chapter 1
                 </Link>
-                <Link href="/story">
-                  <button className="px-5 py-2.5 rounded-md border border-white/20 text-cream hover:border-warm-gold hover:text-warm-gold font-ui text-xs tracking-widest uppercase transition-all">
-                    All Chapters
-                  </button>
+                <Link
+                  href="/story"
+                  className="px-5 py-2.5 rounded-md border border-white/20 text-cream hover:border-warm-gold hover:text-warm-gold font-ui text-xs tracking-widest uppercase transition-all cursor-pointer touch-manipulation"
+                >
+                  All Chapters
                 </Link>
               </div>
             </div>
